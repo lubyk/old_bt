@@ -28,6 +28,7 @@ local ins = dub.Inspector {
     bt_base .. '/BulletCollision/CollisionDispatch/btCollisionConfiguration.h',
     bt_base .. '/BulletCollision/CollisionDispatch/btCollisionDispatcher.h',
     bt_base .. '/BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h',
+    bt_base .. '/BulletCollision/CollisionDispatch/btCollisionWorld.h',
 
     bt_base .. '/BulletCollision/CollisionShapes/btCollisionShape.h',
     bt_base .. '/BulletCollision/CollisionShapes/btConvexInternalShape.h',
@@ -50,8 +51,14 @@ local ins = dub.Inspector {
     bt_base .. '/LinearMath/btScalar.h',
     bt_base .. '/LinearMath/btTransform.h',
     bt_base .. '/LinearMath/btVector3.h',
+    bt_base .. '/LinearMath/btMatrix3x3.h',
+    bt_base .. '/LinearMath/btIDebugDraw.h',
+
+    base .. '/src/vendor/bullet/Demos/OpenGL/GLDebugDrawer.h',
   },
+
   PREDEFINED = '"SIMD_FORCE_INLINE=" "ATTRIBUTE_ALIGNED16(name)=name" "BT_DECLARE_ALIGNED_ALLOCATOR()="',
+
   ignore = {
     'btSelect',
     'btSwapEndian',
@@ -102,6 +109,7 @@ binder:bind(ins, {
     'btDispatcher',
 
     -- BulletCollision/CollisionDispatch:
+    'btCollisionWorld',
     'btCollisionConfiguration',
     'btCollisionDispatcher',
     'btDefaultCollisionConfiguration',
@@ -131,6 +139,12 @@ binder:bind(ins, {
     'btQuaternion',
     'btTransform',
     'btVector3',
+    'btMatrix3x3',
+    'btIDebugDraw',
+
+
+    -- OpenGL
+    'GLDebugDrawer',
 
   }
 })

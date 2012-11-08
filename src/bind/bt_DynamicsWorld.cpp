@@ -10,6 +10,25 @@
 #include "BulletDynamics/Dynamics/btDynamicsWorld.h"
 
 
+/** Cast (class_name)
+ * 
+ */
+static int btDynamicsWorld__cast_(lua_State *L) {
+
+  btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata_n(L, 1, "bt.DynamicsWorld"));
+  const char *key = luaL_checkstring(L, 2);
+  void **retval__ = (void**)lua_newuserdata(L, sizeof(void*));
+  int key_h = dub_hash(key, 2);
+  switch(key_h) {
+    case 0: {
+      if (DUB_ASSERT_KEY(key, "bt.CollisionWorld")) break;
+      *retval__ = static_cast<btCollisionWorld *>(self);
+      return 1;
+    }
+  }
+  return 0;
+}
+
 /** virtual btDynamicsWorld::~btDynamicsWorld()
  * src/vendor/bullet/src/BulletDynamics/Dynamics/btDynamicsWorld.h:59
  */
@@ -495,6 +514,429 @@ static int btDynamicsWorld_removeCharacter(lua_State *L) {
   return dub_error(L);
 }
 
+/** void btCollisionWorld::setBroadphase(btBroadphaseInterface *pairCache)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:114
+ */
+static int btDynamicsWorld_setBroadphase(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    btBroadphaseInterface *pairCache = *((btBroadphaseInterface **)dub_checksdata(L, 2, "bt.BroadphaseInterface"));
+    self->setBroadphase(pairCache);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setBroadphase: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setBroadphase: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** const btBroadphaseInterface* btCollisionWorld::getBroadphase() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:119
+ */
+static int btDynamicsWorld_getBroadphase(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    const btBroadphaseInterface *retval__ = self->getBroadphase();
+    if (!retval__) return 0;
+    dub_pushudata(L, const_cast<btBroadphaseInterface*>(retval__), "bt.BroadphaseInterface", false);
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getBroadphase: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getBroadphase: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btOverlappingPairCache* btCollisionWorld::getPairCache()
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:129
+ */
+static int btDynamicsWorld_getPairCache(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    btOverlappingPairCache *retval__ = self->getPairCache();
+    if (!retval__) return 0;
+    dub_pushudata(L, retval__, "OverlappingPairCache", false);
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getPairCache: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getPairCache: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btDispatcher* btCollisionWorld::getDispatcher()
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:135
+ */
+static int btDynamicsWorld_getDispatcher(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    btDispatcher *retval__ = self->getDispatcher();
+    if (!retval__) return 0;
+    dub_pushudata(L, retval__, "bt.Dispatcher", false);
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getDispatcher: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getDispatcher: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionWorld::updateSingleAabb(btCollisionObject *colObj)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:144
+ */
+static int btDynamicsWorld_updateSingleAabb(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    btCollisionObject *colObj = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+    self->updateSingleAabb(colObj);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "updateSingleAabb: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "updateSingleAabb: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** virtual void btCollisionWorld::updateAabbs()
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:146
+ */
+static int btDynamicsWorld_updateAabbs(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    self->updateAabbs();
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "updateAabbs: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "updateAabbs: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** virtual void btCollisionWorld::computeOverlappingPairs()
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:150
+ */
+static int btDynamicsWorld_computeOverlappingPairs(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    self->computeOverlappingPairs();
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "computeOverlappingPairs: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "computeOverlappingPairs: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** virtual void btCollisionWorld::setDebugDrawer(btIDebugDraw *debugDrawer)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:154
+ */
+static int btDynamicsWorld_setDebugDrawer(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    btIDebugDraw *debugDrawer = *((btIDebugDraw **)dub_checksdata(L, 2, "bt.IDebugDraw"));
+    self->setDebugDrawer(debugDrawer);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setDebugDrawer: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setDebugDrawer: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** virtual btIDebugDraw* btCollisionWorld::getDebugDrawer()
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:159
+ */
+static int btDynamicsWorld_getDebugDrawer(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    btIDebugDraw *retval__ = self->getDebugDrawer();
+    if (!retval__) return 0;
+    dub_pushudata(L, retval__, "bt.IDebugDraw", false);
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getDebugDrawer: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getDebugDrawer: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** virtual void btCollisionWorld::debugDrawObject(const btTransform &worldTransform, const btCollisionShape *shape, const btVector3 &color)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:165
+ */
+static int btDynamicsWorld_debugDrawObject(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    btTransform *worldTransform = *((btTransform **)dub_checksdata(L, 2, "bt.Transform"));
+    btCollisionShape *shape = *((btCollisionShape **)dub_checksdata(L, 3, "bt.CollisionShape"));
+    btVector3 *color = *((btVector3 **)dub_checksdata(L, 4, "bt.Vector3"));
+    self->debugDrawObject(*worldTransform, shape, *color);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "debugDrawObject: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "debugDrawObject: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** int btCollisionWorld::getNumCollisionObjects() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:435
+ */
+static int btDynamicsWorld_getNumCollisionObjects(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    lua_pushnumber(L, self->getNumCollisionObjects());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getNumCollisionObjects: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getNumCollisionObjects: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** virtual void btCollisionWorld::rayTest(const btVector3 &rayFromWorld, const btVector3 &rayToWorld, RayResultCallback &resultCallback) const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:441
+ */
+static int btDynamicsWorld_rayTest(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    btVector3 *rayFromWorld = *((btVector3 **)dub_checksdata(L, 2, "bt.Vector3"));
+    btVector3 *rayToWorld = *((btVector3 **)dub_checksdata(L, 3, "bt.Vector3"));
+    btCollisionWorld::RayResultCallback *resultCallback = *((btCollisionWorld::RayResultCallback **)dub_checksdata(L, 4, "bt.CollisionWorld.RayResultCallback"));
+    self->rayTest(*rayFromWorld, *rayToWorld, *resultCallback);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "rayTest: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "rayTest: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionWorld::convexSweepTest(const btConvexShape *castShape, const btTransform &from, const btTransform &to, ConvexResultCallback &resultCallback, btScalar allowedCcdPenetration=btScalar(0.)) const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:445
+ */
+static int btDynamicsWorld_convexSweepTest(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    int top__ = lua_gettop(L);
+    if (top__ >= 6) {
+      btConvexShape *castShape = *((btConvexShape **)dub_checksdata(L, 2, "bt.ConvexShape"));
+      btTransform *from = *((btTransform **)dub_checksdata(L, 3, "bt.Transform"));
+      btTransform *to = *((btTransform **)dub_checksdata(L, 4, "bt.Transform"));
+      btCollisionWorld::ConvexResultCallback *resultCallback = *((btCollisionWorld::ConvexResultCallback **)dub_checksdata(L, 5, "bt.CollisionWorld.ConvexResultCallback"));
+      btScalar allowedCcdPenetration = dub_checknumber(L, 6);
+      self->convexSweepTest(castShape, *from, *to, *resultCallback, allowedCcdPenetration);
+      return 0;
+    } else {
+      btConvexShape *castShape = *((btConvexShape **)dub_checksdata(L, 2, "bt.ConvexShape"));
+      btTransform *from = *((btTransform **)dub_checksdata(L, 3, "bt.Transform"));
+      btTransform *to = *((btTransform **)dub_checksdata(L, 4, "bt.Transform"));
+      btCollisionWorld::ConvexResultCallback *resultCallback = *((btCollisionWorld::ConvexResultCallback **)dub_checksdata(L, 5, "bt.CollisionWorld.ConvexResultCallback"));
+      self->convexSweepTest(castShape, *from, *to, *resultCallback);
+      return 0;
+    }
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "convexSweepTest: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "convexSweepTest: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionWorld::contactTest(btCollisionObject *colObj, ContactResultCallback &resultCallback)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:449
+ */
+static int btDynamicsWorld_contactTest(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    btCollisionObject *colObj = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+    btCollisionWorld::ContactResultCallback *resultCallback = *((btCollisionWorld::ContactResultCallback **)dub_checksdata(L, 3, "bt.CollisionWorld.ContactResultCallback"));
+    self->contactTest(colObj, *resultCallback);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "contactTest: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "contactTest: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionWorld::contactPairTest(btCollisionObject *colObjA, btCollisionObject *colObjB, ContactResultCallback &resultCallback)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:453
+ */
+static int btDynamicsWorld_contactPairTest(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    btCollisionObject *colObjA = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+    btCollisionObject *colObjB = *((btCollisionObject **)dub_checksdata(L, 3, "CollisionObject"));
+    btCollisionWorld::ContactResultCallback *resultCallback = *((btCollisionWorld::ContactResultCallback **)dub_checksdata(L, 4, "bt.CollisionWorld.ContactResultCallback"));
+    self->contactPairTest(colObjA, colObjB, *resultCallback);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "contactPairTest: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "contactPairTest: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** virtual void btCollisionWorld::addCollisionObject(btCollisionObject *collisionObject, short int collisionFilterGroup=btBroadphaseProxy::DefaultFilter, short int collisionFilterMask=btBroadphaseProxy::AllFilter)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:480
+ */
+static int btDynamicsWorld_addCollisionObject(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    int top__ = lua_gettop(L);
+    if (top__ >= 4) {
+      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+      short int *collisionFilterGroup = *((short int **)dub_checksdata(L, 3, "short int"));
+      short int *collisionFilterMask = *((short int **)dub_checksdata(L, 4, "short int"));
+      self->addCollisionObject(collisionObject, *collisionFilterGroup, *collisionFilterMask);
+      return 0;
+    } else if (top__ >= 3) {
+      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+      short int *collisionFilterGroup = *((short int **)dub_checksdata(L, 3, "short int"));
+      self->addCollisionObject(collisionObject, *collisionFilterGroup);
+      return 0;
+    } else {
+      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+      self->addCollisionObject(collisionObject);
+      return 0;
+    }
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "addCollisionObject: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "addCollisionObject: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btCollisionObjectArray& btCollisionWorld::getCollisionObjectArray()
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:483
+ */
+static int btDynamicsWorld_getCollisionObjectArray(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    dub_pushudata(L, &self->getCollisionObjectArray(), "CollisionObjectArray", false);
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getCollisionObjectArray: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getCollisionObjectArray: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** virtual void btCollisionWorld::removeCollisionObject(btCollisionObject *collisionObject)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:493
+ */
+static int btDynamicsWorld_removeCollisionObject(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+    self->removeCollisionObject(collisionObject);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "removeCollisionObject: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "removeCollisionObject: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** virtual void btCollisionWorld::performDiscreteCollisionDetection()
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:495
+ */
+static int btDynamicsWorld_performDiscreteCollisionDetection(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    self->performDiscreteCollisionDetection();
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "performDiscreteCollisionDetection: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "performDiscreteCollisionDetection: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btDispatcherInfo& btCollisionWorld::getDispatchInfo()
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:498
+ */
+static int btDynamicsWorld_getDispatchInfo(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    dub_pushudata(L, &self->getDispatchInfo(), "bt.DispatcherInfo", false);
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getDispatchInfo: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getDispatchInfo: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** bool btCollisionWorld::getForceUpdateAllAabbs() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:508
+ */
+static int btDynamicsWorld_getForceUpdateAllAabbs(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    lua_pushboolean(L, self->getForceUpdateAllAabbs());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getForceUpdateAllAabbs: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getForceUpdateAllAabbs: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionWorld::setForceUpdateAllAabbs(bool forceUpdateAllAabbs)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:512
+ */
+static int btDynamicsWorld_setForceUpdateAllAabbs(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    bool forceUpdateAllAabbs = dub_checkboolean(L, 2);
+    self->setForceUpdateAllAabbs(forceUpdateAllAabbs);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setForceUpdateAllAabbs: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setForceUpdateAllAabbs: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** virtual void btCollisionWorld::serialize(btSerializer *serializer)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionWorld.h:517
+ */
+static int btDynamicsWorld_serialize(lua_State *L) {
+  try {
+    btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
+    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 2, "Serializer"));
+    self->serialize(serializer);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "serialize: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "serialize: Unknown exception");
+  }
+  return dub_error(L);
+}
+
 
 
 // --=============================================== __tostring
@@ -508,6 +950,7 @@ static int btDynamicsWorld___tostring(lua_State *L) {
 // --=============================================== METHODS
 
 static const struct luaL_Reg btDynamicsWorld_member_methods[] = {
+  { "_cast_"       , btDynamicsWorld__cast_ },
   { "__gc"         , btDynamicsWorld__btDynamicsWorld },
   { "stepSimulation", btDynamicsWorld_stepSimulation },
   { "debugDrawWorld", btDynamicsWorld_debugDrawWorld },
@@ -534,6 +977,29 @@ static const struct luaL_Reg btDynamicsWorld_member_methods[] = {
   { "removeVehicle", btDynamicsWorld_removeVehicle },
   { "addCharacter" , btDynamicsWorld_addCharacter },
   { "removeCharacter", btDynamicsWorld_removeCharacter },
+  { "setBroadphase", btDynamicsWorld_setBroadphase },
+  { "getBroadphase", btDynamicsWorld_getBroadphase },
+  { "getPairCache" , btDynamicsWorld_getPairCache },
+  { "getDispatcher", btDynamicsWorld_getDispatcher },
+  { "updateSingleAabb", btDynamicsWorld_updateSingleAabb },
+  { "updateAabbs"  , btDynamicsWorld_updateAabbs },
+  { "computeOverlappingPairs", btDynamicsWorld_computeOverlappingPairs },
+  { "setDebugDrawer", btDynamicsWorld_setDebugDrawer },
+  { "getDebugDrawer", btDynamicsWorld_getDebugDrawer },
+  { "debugDrawObject", btDynamicsWorld_debugDrawObject },
+  { "getNumCollisionObjects", btDynamicsWorld_getNumCollisionObjects },
+  { "rayTest"      , btDynamicsWorld_rayTest },
+  { "convexSweepTest", btDynamicsWorld_convexSweepTest },
+  { "contactTest"  , btDynamicsWorld_contactTest },
+  { "contactPairTest", btDynamicsWorld_contactPairTest },
+  { "addCollisionObject", btDynamicsWorld_addCollisionObject },
+  { "getCollisionObjectArray", btDynamicsWorld_getCollisionObjectArray },
+  { "removeCollisionObject", btDynamicsWorld_removeCollisionObject },
+  { "performDiscreteCollisionDetection", btDynamicsWorld_performDiscreteCollisionDetection },
+  { "getDispatchInfo", btDynamicsWorld_getDispatchInfo },
+  { "getForceUpdateAllAabbs", btDynamicsWorld_getForceUpdateAllAabbs },
+  { "setForceUpdateAllAabbs", btDynamicsWorld_setForceUpdateAllAabbs },
+  { "serialize"    , btDynamicsWorld_serialize },
   { "__tostring"   , btDynamicsWorld___tostring },
   { "deleted"      , dub_isDeleted        },
   { NULL, NULL},

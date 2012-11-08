@@ -39,7 +39,7 @@ static int btTransform_btTransform(lua_State *L) {
     if (top__ >= 2) {
       int type__ = lua_type(L, 1);
       void **ptr1__;
-      if ( (ptr1__ = dub_issdata(L, 1, "Matrix3x3", type__)) ) {
+      if ( (ptr1__ = dub_issdata(L, 1, "bt.Matrix3x3", type__)) ) {
         btMatrix3x3 *b = *((btMatrix3x3 **)ptr1__);
         btVector3 *c = *((btVector3 **)dub_checksdata(L, 2, "bt.Vector3"));
         btTransform *retval__ = new btTransform(*b, *c);
@@ -60,7 +60,7 @@ static int btTransform_btTransform(lua_State *L) {
         btTransform *retval__ = new btTransform(*q);
         dub_pushudata(L, retval__, "bt.Transform", true);
         return 1;
-      } else if ( (ptr1__ = dub_issdata(L, 1, "Matrix3x3", type__)) ) {
+      } else if ( (ptr1__ = dub_issdata(L, 1, "bt.Matrix3x3", type__)) ) {
         btMatrix3x3 *b = *((btMatrix3x3 **)ptr1__);
         btTransform *retval__ = new btTransform(*b);
         dub_pushudata(L, retval__, "bt.Transform", true);
@@ -154,7 +154,7 @@ static int btTransform_operator_mul(lua_State *L) {
 static int btTransform_getBasis(lua_State *L) {
   try {
     btTransform *self = *((btTransform **)dub_checksdata(L, 1, "bt.Transform"));
-    dub_pushudata(L, &self->getBasis(), "Matrix3x3", false);
+    dub_pushudata(L, &self->getBasis(), "bt.Matrix3x3", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getBasis: %s", e.what());
@@ -270,7 +270,7 @@ static int btTransform_invXform(lua_State *L) {
 static int btTransform_setBasis(lua_State *L) {
   try {
     btTransform *self = *((btTransform **)dub_checksdata(L, 1, "bt.Transform"));
-    btMatrix3x3 *basis = *((btMatrix3x3 **)dub_checksdata(L, 2, "Matrix3x3"));
+    btMatrix3x3 *basis = *((btMatrix3x3 **)dub_checksdata(L, 2, "bt.Matrix3x3"));
     self->setBasis(*basis);
     return 0;
   } catch (std::exception &e) {

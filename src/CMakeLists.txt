@@ -21,6 +21,14 @@ set(target "${MODULE_NAME}_core")
 file(GLOB MODULE_SOURCES *.cpp bind/*.cpp bind/dub/*.cpp)
 include_directories(bind)
 include_directories(vendor/bullet/src)
+include_directories(vendor/bullet/Demos/OpenGL)
+set(MODULE_SOURCES ${MODULE_SOURCES}
+  vendor/bullet/Demos/OpenGL/GLDebugFont.cpp
+	vendor/bullet/Demos/OpenGL/GLDebugDrawer.cpp
+)
+#	vendor/bullet/Demos/OpenGL/GL_DialogDynamicsWorld.cpp
+#	vendor/bullet/Demos/OpenGL/GL_ShapeDrawer.cpp
+#	vendor/bullet/Demos/OpenGL/GlutStuff.cpp
 
 add_library(${target} MODULE ${MODULE_SOURCES})
 set_target_properties(${target}
@@ -31,6 +39,10 @@ set_target_properties(${target}
 )                                                         
 # BulletWorldImporter 
 target_link_libraries(${target} BulletMultiThreaded MiniCL BulletSoftBody BulletDynamics BulletCollision LinearMath)
+
+# OpenGL stuff
+target_link_libraries(${target} ${GLUT_glut_LIBRARY} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
+
 add_dependencies(${MODULE_NAME} ${target})
 
 # --------------------------------------------------------------

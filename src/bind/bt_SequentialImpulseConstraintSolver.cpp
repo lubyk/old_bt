@@ -78,7 +78,7 @@ static int btSequentialImpulseConstraintSolver_solveGroup(lua_State *L) {
     btTypedConstraint* *constraints = *((btTypedConstraint* **)dub_checksdata(L, 6, "TypedConstraint*"));
     int numConstraints = dub_checkint(L, 7);
     btContactSolverInfo *info = *((btContactSolverInfo **)dub_checksdata(L, 8, "ContactSolverInfo"));
-    btIDebugDraw *debugDrawer = *((btIDebugDraw **)dub_checksdata(L, 9, "IDebugDraw"));
+    btIDebugDraw *debugDrawer = *((btIDebugDraw **)dub_checksdata(L, 9, "bt.IDebugDraw"));
     btStackAlloc *stackAlloc = *((btStackAlloc **)dub_checksdata(L, 10, "StackAlloc"));
     btDispatcher *dispatcher = *((btDispatcher **)dub_checksdata(L, 11, "bt.Dispatcher"));
     lua_pushnumber(L, self->solveGroup(bodies, numBodies, manifold, numManifolds, constraints, numConstraints, *info, debugDrawer, stackAlloc, dispatcher));

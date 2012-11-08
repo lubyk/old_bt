@@ -11,6 +11,7 @@
 #include "BulletCollision/BroadphaseCollision/btBroadphaseInterface.h"
 #include "BulletCollision/BroadphaseCollision/btDbvtBroadphase.h"
 #include "BulletCollision/BroadphaseCollision/btDispatcher.h"
+#include "BulletCollision/CollisionDispatch/btCollisionWorld.h"
 #include "BulletCollision/CollisionDispatch/btCollisionConfiguration.h"
 #include "BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
 #include "BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h"
@@ -31,6 +32,9 @@
 #include "LinearMath/btQuaternion.h"
 #include "LinearMath/btTransform.h"
 #include "LinearMath/btVector3.h"
+#include "LinearMath/btMatrix3x3.h"
+#include "LinearMath/btIDebugDraw.h"
+#include "/Users/gaspard/git/lubyk/modules/bt/src/vendor/bullet/Demos/OpenGL/GLDebugDrawer.h"
 #include "LinearMath/btScalar.h"
 
 
@@ -39,6 +43,7 @@ int luaopen_bt_LkMotionState(lua_State *L);
 int luaopen_bt_BroadphaseInterface(lua_State *L);
 int luaopen_bt_DbvtBroadphase(lua_State *L);
 int luaopen_bt_Dispatcher(lua_State *L);
+int luaopen_bt_CollisionWorld(lua_State *L);
 int luaopen_bt_CollisionConfiguration(lua_State *L);
 int luaopen_bt_CollisionDispatcher(lua_State *L);
 int luaopen_bt_DefaultCollisionConfiguration(lua_State *L);
@@ -60,10 +65,13 @@ int luaopen_bt_QuadWord(lua_State *L);
 int luaopen_bt_Quaternion(lua_State *L);
 int luaopen_bt_Transform(lua_State *L);
 int luaopen_bt_Vector3(lua_State *L);
+int luaopen_bt_Matrix3x3(lua_State *L);
+int luaopen_bt_IDebugDraw(lua_State *L);
+int luaopen_bt_GLDebugDrawer(lua_State *L);
 }
 
-/** btQuaternion operator*(const btQuaternion &q1, const btQuaternion &q2)
- * src/vendor/bullet/src/LinearMath/btQuaternion.h:541
+/** btMatrix3x3 operator*(const btMatrix3x3 &m, const btScalar &k)
+ * src/vendor/bullet/src/LinearMath/btMatrix3x3.h:854
  */
 static int bt_operator_mul(lua_State *L) {
   try {
@@ -87,13 +95,18 @@ static int bt_operator_mul(lua_State *L) {
         btVector3 *v2 = *((btVector3 **)ptr2__);
         dub_pushudata(L, new btVector3(operator*(*v1, *v2)), "bt.Vector3", true);
         return 1;
-      } else {
+      } else if ( (ptr2__ = dub_issdata(L, 2, "bt.Quaternion", type__)) ) {
         btVector3 *w = *((btVector3 **)dub_checksdata(L, 1, "bt.Vector3"));
-        btQuaternion *q = *((btQuaternion **)dub_checksdata(L, 2, "bt.Quaternion"));
+        btQuaternion *q = *((btQuaternion **)ptr2__);
         dub_pushudata(L, new btQuaternion(operator*(*w, *q)), "bt.Quaternion", true);
         return 1;
+      } else {
+        btVector3 *v = *((btVector3 **)dub_checksdata(L, 1, "bt.Vector3"));
+        btMatrix3x3 *m = *((btMatrix3x3 **)dub_checksdata(L, 2, "bt.Matrix3x3"));
+        dub_pushudata(L, new btVector3(operator*(*v, *m)), "bt.Vector3", true);
+        return 1;
       }
-    } else {
+    } else if ( (ptr1__ = dub_issdata(L, 1, "bt.Quaternion", type__)) ) {
       int type__ = lua_type(L, 2);
       void **ptr2__;
       if ( (ptr2__ = dub_issdata(L, 2, "bt.Vector3", type__)) ) {
@@ -107,11 +120,115 @@ static int bt_operator_mul(lua_State *L) {
         dub_pushudata(L, new btQuaternion(operator*(*q1, *q2)), "bt.Quaternion", true);
         return 1;
       }
+    } else {
+      int type__ = lua_type(L, 2);
+      void **ptr2__;
+      if (type__ == LUA_TNUMBER) {
+        btMatrix3x3 *m = *((btMatrix3x3 **)dub_checksdata(L, 1, "bt.Matrix3x3"));
+        btScalar k = dub_checknumber(L, 2);
+        dub_pushudata(L, new btMatrix3x3(operator*(*m, k)), "bt.Matrix3x3", true);
+        return 1;
+      } else if ( (ptr2__ = dub_issdata(L, 2, "bt.Vector3", type__)) ) {
+        btMatrix3x3 *m = *((btMatrix3x3 **)dub_checksdata(L, 1, "bt.Matrix3x3"));
+        btVector3 *v = *((btVector3 **)ptr2__);
+        dub_pushudata(L, new btVector3(operator*(*m, *v)), "bt.Vector3", true);
+        return 1;
+      } else {
+        btMatrix3x3 *m1 = *((btMatrix3x3 **)dub_checksdata(L, 1, "bt.Matrix3x3"));
+        btMatrix3x3 *m2 = *((btMatrix3x3 **)dub_checksdata(L, 2, "bt.Matrix3x3"));
+        dub_pushudata(L, new btMatrix3x3(operator*(*m1, *m2)), "bt.Matrix3x3", true);
+        return 1;
+      }
     }
   } catch (std::exception &e) {
     lua_pushfstring(L, "bt.operator*: %s", e.what());
   } catch (...) {
     lua_pushfstring(L, "bt.operator*: Unknown exception");
+  }
+  return lua_error(L);
+}
+
+/** btMatrix3x3 operator+(const btMatrix3x3 &m1, const btMatrix3x3 &m2)
+ * src/vendor/bullet/src/LinearMath/btMatrix3x3.h:876
+ */
+static int bt_operator_add(lua_State *L) {
+  try {
+    int type__ = lua_type(L, 1);
+    void **ptr1__;
+    if ( (ptr1__ = dub_issdata(L, 1, "bt.Matrix3x3", type__)) ) {
+      btMatrix3x3 *m1 = *((btMatrix3x3 **)ptr1__);
+      btMatrix3x3 *m2 = *((btMatrix3x3 **)dub_checksdata(L, 2, "bt.Matrix3x3"));
+      dub_pushudata(L, new btMatrix3x3(operator+(*m1, *m2)), "bt.Matrix3x3", true);
+      return 1;
+    } else {
+      btVector3 *v1 = *((btVector3 **)dub_checksdata(L, 1, "bt.Vector3"));
+      btVector3 *v2 = *((btVector3 **)dub_checksdata(L, 2, "bt.Vector3"));
+      dub_pushudata(L, new btVector3(operator+(*v1, *v2)), "bt.Vector3", true);
+      return 1;
+    }
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "bt.operator+: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "bt.operator+: Unknown exception");
+  }
+  return lua_error(L);
+}
+
+/** btMatrix3x3 operator-(const btMatrix3x3 &m1, const btMatrix3x3 &m2)
+ * src/vendor/bullet/src/LinearMath/btMatrix3x3.h:900
+ */
+static int bt_operator_sub(lua_State *L) {
+  try {
+    int top__ = lua_gettop(L);
+    if (top__ >= 2) {
+      int type__ = lua_type(L, 1);
+      void **ptr1__;
+      if ( (ptr1__ = dub_issdata(L, 1, "bt.Matrix3x3", type__)) ) {
+        btMatrix3x3 *m1 = *((btMatrix3x3 **)ptr1__);
+        btMatrix3x3 *m2 = *((btMatrix3x3 **)dub_checksdata(L, 2, "bt.Matrix3x3"));
+        dub_pushudata(L, new btMatrix3x3(operator-(*m1, *m2)), "bt.Matrix3x3", true);
+        return 1;
+      } else {
+        btVector3 *v1 = *((btVector3 **)dub_checksdata(L, 1, "bt.Vector3"));
+        btVector3 *v2 = *((btVector3 **)dub_checksdata(L, 2, "bt.Vector3"));
+        dub_pushudata(L, new btVector3(operator-(*v1, *v2)), "bt.Vector3", true);
+        return 1;
+      }
+    } else {
+      btVector3 *v = *((btVector3 **)dub_checksdata(L, 1, "bt.Vector3"));
+      dub_pushudata(L, new btVector3(operator-(*v)), "bt.Vector3", true);
+      return 1;
+    }
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "bt.operator-: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "bt.operator-: Unknown exception");
+  }
+  return lua_error(L);
+}
+
+/** bool operator==(const btMatrix3x3 &m1, const btMatrix3x3 &m2)
+ * src/vendor/bullet/src/LinearMath/btMatrix3x3.h:1294
+ */
+static int bt_operator_eq(lua_State *L) {
+  try {
+    int type__ = lua_type(L, 1);
+    void **ptr1__;
+    if ( (ptr1__ = dub_issdata(L, 1, "bt.Matrix3x3", type__)) ) {
+      btMatrix3x3 *m1 = *((btMatrix3x3 **)ptr1__);
+      btMatrix3x3 *m2 = *((btMatrix3x3 **)dub_checksdata(L, 2, "bt.Matrix3x3"));
+      lua_pushboolean(L, operator==(*m1, *m2));
+      return 1;
+    } else {
+      btTransform *t1 = *((btTransform **)dub_checksdata(L, 1, "bt.Transform"));
+      btTransform *t2 = *((btTransform **)dub_checksdata(L, 2, "bt.Transform"));
+      lua_pushboolean(L, operator==(*t1, *t2));
+      return 1;
+    }
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "bt.operator==: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "bt.operator==: Unknown exception");
   }
   return lua_error(L);
 }
@@ -650,64 +767,6 @@ static int bt_btNormalizeAngle(lua_State *L) {
   return lua_error(L);
 }
 
-/** bool operator==(const btTransform &t1, const btTransform &t2)
- * src/vendor/bullet/src/LinearMath/btTransform.h:246
- */
-static int bt_operator_eq(lua_State *L) {
-  try {
-    btTransform *t1 = *((btTransform **)dub_checksdata(L, 1, "bt.Transform"));
-    btTransform *t2 = *((btTransform **)dub_checksdata(L, 2, "bt.Transform"));
-    lua_pushboolean(L, operator==(*t1, *t2));
-    return 1;
-  } catch (std::exception &e) {
-    lua_pushfstring(L, "bt.operator==: %s", e.what());
-  } catch (...) {
-    lua_pushfstring(L, "bt.operator==: Unknown exception");
-  }
-  return lua_error(L);
-}
-
-/** btVector3 operator+(const btVector3 &v1, const btVector3 &v2)
- * src/vendor/bullet/src/LinearMath/btVector3.h:738
- */
-static int bt_operator_add(lua_State *L) {
-  try {
-    btVector3 *v1 = *((btVector3 **)dub_checksdata(L, 1, "bt.Vector3"));
-    btVector3 *v2 = *((btVector3 **)dub_checksdata(L, 2, "bt.Vector3"));
-    dub_pushudata(L, new btVector3(operator+(*v1, *v2)), "bt.Vector3", true);
-    return 1;
-  } catch (std::exception &e) {
-    lua_pushfstring(L, "bt.operator+: %s", e.what());
-  } catch (...) {
-    lua_pushfstring(L, "bt.operator+: Unknown exception");
-  }
-  return lua_error(L);
-}
-
-/** btVector3 operator-(const btVector3 &v1, const btVector3 &v2)
- * src/vendor/bullet/src/LinearMath/btVector3.h:770
- */
-static int bt_operator_sub(lua_State *L) {
-  try {
-    int top__ = lua_gettop(L);
-    if (top__ >= 2) {
-      btVector3 *v1 = *((btVector3 **)dub_checksdata(L, 1, "bt.Vector3"));
-      btVector3 *v2 = *((btVector3 **)dub_checksdata(L, 2, "bt.Vector3"));
-      dub_pushudata(L, new btVector3(operator-(*v1, *v2)), "bt.Vector3", true);
-      return 1;
-    } else {
-      btVector3 *v = *((btVector3 **)dub_checksdata(L, 1, "bt.Vector3"));
-      dub_pushudata(L, new btVector3(operator-(*v)), "bt.Vector3", true);
-      return 1;
-    }
-  } catch (std::exception &e) {
-    lua_pushfstring(L, "bt.operator-: %s", e.what());
-  } catch (...) {
-    lua_pushfstring(L, "bt.operator-: Unknown exception");
-  }
-  return lua_error(L);
-}
-
 /** btVector3 operator/(const btVector3 &v, const btScalar &s)
  * src/vendor/bullet/src/LinearMath/btVector3.h:827
  */
@@ -890,6 +949,9 @@ static int bt_btUnSwapVector3Endian(lua_State *L) {
 // --=============================================== FUNCTIONS
 static const struct luaL_Reg bt_functions[] = {
   { "__mul"        , bt_operator_mul      },
+  { "__add"        , bt_operator_add      },
+  { "__sub"        , bt_operator_sub      },
+  { "__eq"         , bt_operator_eq       },
   { "dot"          , bt_dot               },
   { "length"       , bt_length            },
   { "btAngle"      , bt_btAngle           },
@@ -922,9 +984,6 @@ static const struct luaL_Reg bt_functions[] = {
   { "btFsel"       , bt_btFsel            },
   { "btMachineIsLittleEndian", bt_btMachineIsLittleEndian },
   { "btNormalizeAngle", bt_btNormalizeAngle  },
-  { "__eq"         , bt_operator_eq       },
-  { "__add"        , bt_operator_add      },
-  { "__sub"        , bt_operator_sub      },
   { "__div"        , bt_operator_div      },
   { "btDot"        , bt_btDot             },
   { "btDistance2"  , bt_btDistance2       },
@@ -960,6 +1019,7 @@ extern "C" int luaopen_bt_core(lua_State *L) {
   luaopen_bt_BroadphaseInterface(L);
   luaopen_bt_DbvtBroadphase(L);
   luaopen_bt_Dispatcher(L);
+  luaopen_bt_CollisionWorld(L);
   luaopen_bt_CollisionConfiguration(L);
   luaopen_bt_CollisionDispatcher(L);
   luaopen_bt_DefaultCollisionConfiguration(L);
@@ -981,6 +1041,9 @@ extern "C" int luaopen_bt_core(lua_State *L) {
   luaopen_bt_Quaternion(L);
   luaopen_bt_Transform(L);
   luaopen_bt_Vector3(L);
+  luaopen_bt_Matrix3x3(L);
+  luaopen_bt_IDebugDraw(L);
+  luaopen_bt_GLDebugDrawer(L);
 
   // Create the table which will contain all the constants
   lua_getfield(L, LUA_GLOBALSINDEX, "bt");

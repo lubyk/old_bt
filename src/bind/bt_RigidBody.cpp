@@ -419,7 +419,7 @@ static int btRigidBody_getInvMass(lua_State *L) {
 static int btRigidBody_getInvInertiaTensorWorld(lua_State *L) {
   try {
     btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
-    dub_pushudata(L, const_cast<btMatrix3x3*>(&self->getInvInertiaTensorWorld()), "Matrix3x3", false);
+    dub_pushudata(L, const_cast<btMatrix3x3*>(&self->getInvInertiaTensorWorld()), "bt.Matrix3x3", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getInvInertiaTensorWorld: %s", e.what());
