@@ -40,7 +40,7 @@ local fallMotionState = bt.MotionState()
 function fallMotionState:getWorldTransform(worldTrans)
   -- Called to get initial ball position
   worldTrans:setRotation(bt.Quaternion(0,0,0,1))
-  worldTrans:setOrigin(bt.Vector3(2 * math.random() - 1, 5 * math.random(), 2 * math.random() - 1))
+  worldTrans:setOrigin(bt.Vector3(2 * math.random() - 1, 8 * math.random(), 2 * math.random() - 1))
 end
 
 function fallMotionState:setWorldTransform(worldTrans)
@@ -60,18 +60,23 @@ local fallRigidBodyCI = bt.RigidBody.RigidBodyConstructionInfo(
 fallRigidBodyCI.m_restitution = 0.5
 fallRigidBodyCI.m_linearDamping = 0.2
 
-local bodies = {}
-for i=1,10 do
-  local fallRigidBody = bt.RigidBody(fallRigidBodyCI)
-  dynamicsWorld:addRigidBody(fallRigidBody)
-  table.insert(bodies, fallRigidBody)
-end
+local bodies = {_count = 0}
+adder = lk.Timer(5, function()
+  if bodies._count < 700 then
+    local fallRigidBody = bt.RigidBody(fallRigidBodyCI)
+    dynamicsWorld:addRigidBody(fallRigidBody)
+    table.insert(bodies, fallRigidBody)
+    bodies._count = bodies._count + 1
+  else
+    adder:stop()
+  end
+end)
+adder:start()
 
 function win:click(x, y, op)
   if op == mimas.MousePress then
-    local d = bt.Vector3(0, 7, 0)
     for i, fallRigidBody in ipairs(bodies) do
-      fallRigidBody:translate(d)
+      fallRigidBody:translate(bt.Vector3(math.random(), 7 * math.random(), math.random()))
     end
   end
 end
