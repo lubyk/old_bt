@@ -462,7 +462,7 @@ static int btSphereShape_serialize(lua_State *L) {
   try {
     btSphereShape *self = *((btSphereShape **)dub_checksdata(L, 1, "bt.SphereShape"));
     void *dataBuffer = *((void **)dub_checksdata(L, 2, "void"));
-    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 3, "Serializer *"));
+    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 3, "Serializer"));
     lua_pushstring(L, self->serialize(dataBuffer, serializer));
     return 1;
   } catch (std::exception &e) {
@@ -834,7 +834,7 @@ static int btSphereShape_getUserPointer(lua_State *L) {
 static int btSphereShape_serializeSingleShape(lua_State *L) {
   try {
     btSphereShape *self = *((btSphereShape **)dub_checksdata(L, 1, "bt.SphereShape"));
-    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 2, "Serializer *"));
+    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 2, "Serializer"));
     self->serializeSingleShape(serializer);
     return 0;
   } catch (std::exception &e) {

@@ -337,7 +337,7 @@ static int btConvexInternalShape_serialize(lua_State *L) {
   try {
     btConvexInternalShape *self = *((btConvexInternalShape **)dub_checksdata(L, 1, "bt.ConvexInternalShape"));
     void *dataBuffer = *((void **)dub_checksdata(L, 2, "void"));
-    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 3, "Serializer *"));
+    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 3, "Serializer"));
     lua_pushstring(L, self->serialize(dataBuffer, serializer));
     return 1;
   } catch (std::exception &e) {
@@ -779,7 +779,7 @@ static int btConvexInternalShape_getUserPointer(lua_State *L) {
 static int btConvexInternalShape_serializeSingleShape(lua_State *L) {
   try {
     btConvexInternalShape *self = *((btConvexInternalShape **)dub_checksdata(L, 1, "bt.ConvexInternalShape"));
-    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 2, "Serializer *"));
+    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 2, "Serializer"));
     self->serializeSingleShape(serializer);
     return 0;
   } catch (std::exception &e) {

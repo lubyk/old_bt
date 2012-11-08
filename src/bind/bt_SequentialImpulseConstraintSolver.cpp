@@ -71,15 +71,15 @@ static int btSequentialImpulseConstraintSolver__btSequentialImpulseConstraintSol
 static int btSequentialImpulseConstraintSolver_solveGroup(lua_State *L) {
   try {
     btSequentialImpulseConstraintSolver *self = *((btSequentialImpulseConstraintSolver **)dub_checksdata(L, 1, "bt.SequentialImpulseConstraintSolver"));
-    btCollisionObject* *bodies = *((btCollisionObject* **)dub_checksdata(L, 2, "CollisionObject* *"));
+    btCollisionObject* *bodies = *((btCollisionObject* **)dub_checksdata(L, 2, "CollisionObject*"));
     int numBodies = dub_checkint(L, 3);
-    btPersistentManifold* *manifold = *((btPersistentManifold* **)dub_checksdata(L, 4, "PersistentManifold* *"));
+    btPersistentManifold* *manifold = *((btPersistentManifold* **)dub_checksdata(L, 4, "PersistentManifold*"));
     int numManifolds = dub_checkint(L, 5);
-    btTypedConstraint* *constraints = *((btTypedConstraint* **)dub_checksdata(L, 6, "TypedConstraint* *"));
+    btTypedConstraint* *constraints = *((btTypedConstraint* **)dub_checksdata(L, 6, "TypedConstraint*"));
     int numConstraints = dub_checkint(L, 7);
     btContactSolverInfo *info = *((btContactSolverInfo **)dub_checksdata(L, 8, "ContactSolverInfo"));
-    btIDebugDraw *debugDrawer = *((btIDebugDraw **)dub_checksdata(L, 9, "IDebugDraw *"));
-    btStackAlloc *stackAlloc = *((btStackAlloc **)dub_checksdata(L, 10, "StackAlloc *"));
+    btIDebugDraw *debugDrawer = *((btIDebugDraw **)dub_checksdata(L, 9, "IDebugDraw"));
+    btStackAlloc *stackAlloc = *((btStackAlloc **)dub_checksdata(L, 10, "StackAlloc"));
     btDispatcher *dispatcher = *((btDispatcher **)dub_checksdata(L, 11, "bt.Dispatcher"));
     lua_pushnumber(L, self->solveGroup(bodies, numBodies, manifold, numManifolds, constraints, numConstraints, *info, debugDrawer, stackAlloc, dispatcher));
     return 1;
@@ -198,8 +198,8 @@ static int btSequentialImpulseConstraintSolver_allSolved(lua_State *L) {
   try {
     btSequentialImpulseConstraintSolver *self = *((btSequentialImpulseConstraintSolver **)dub_checksdata(L, 1, "bt.SequentialImpulseConstraintSolver"));
     btContactSolverInfo *p1 = *((btContactSolverInfo **)dub_checksdata(L, 2, "ContactSolverInfo"));
-    class btIDebugDraw *p2 = *((class btIDebugDraw **)dub_checksdata(L, 3, "class btIDebugDraw *"));
-    btStackAlloc *p3 = *((btStackAlloc **)dub_checksdata(L, 4, "StackAlloc *"));
+    class btIDebugDraw *p2 = *((class btIDebugDraw **)dub_checksdata(L, 3, "class btIDebugDraw"));
+    btStackAlloc *p3 = *((btStackAlloc **)dub_checksdata(L, 4, "StackAlloc"));
     self->allSolved(*p1, p2, p3);
     return 0;
   } catch (std::exception &e) {

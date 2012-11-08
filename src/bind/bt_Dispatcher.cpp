@@ -38,19 +38,19 @@ static int btDispatcher_findAlgorithm(lua_State *L) {
     btDispatcher *self = *((btDispatcher **)dub_checksdata(L, 1, "bt.Dispatcher"));
     int top__ = lua_gettop(L);
     if (top__ >= 4) {
-      btCollisionObjectWrapper *body0Wrap = *((btCollisionObjectWrapper **)dub_checksdata(L, 2, "CollisionObjectWrapper *"));
-      btCollisionObjectWrapper *body1Wrap = *((btCollisionObjectWrapper **)dub_checksdata(L, 3, "CollisionObjectWrapper *"));
-      btPersistentManifold *sharedManifold = *((btPersistentManifold **)dub_checksdata(L, 4, "PersistentManifold *"));
+      btCollisionObjectWrapper *body0Wrap = *((btCollisionObjectWrapper **)dub_checksdata(L, 2, "CollisionObjectWrapper"));
+      btCollisionObjectWrapper *body1Wrap = *((btCollisionObjectWrapper **)dub_checksdata(L, 3, "CollisionObjectWrapper"));
+      btPersistentManifold *sharedManifold = *((btPersistentManifold **)dub_checksdata(L, 4, "PersistentManifold"));
       btCollisionAlgorithm *retval__ = self->findAlgorithm(body0Wrap, body1Wrap, sharedManifold);
       if (!retval__) return 0;
-      dub_pushudata(L, retval__, "CollisionAlgorithm *", false);
+      dub_pushudata(L, retval__, "CollisionAlgorithm", false);
       return 1;
     } else {
-      btCollisionObjectWrapper *body0Wrap = *((btCollisionObjectWrapper **)dub_checksdata(L, 2, "CollisionObjectWrapper *"));
-      btCollisionObjectWrapper *body1Wrap = *((btCollisionObjectWrapper **)dub_checksdata(L, 3, "CollisionObjectWrapper *"));
+      btCollisionObjectWrapper *body0Wrap = *((btCollisionObjectWrapper **)dub_checksdata(L, 2, "CollisionObjectWrapper"));
+      btCollisionObjectWrapper *body1Wrap = *((btCollisionObjectWrapper **)dub_checksdata(L, 3, "CollisionObjectWrapper"));
       btCollisionAlgorithm *retval__ = self->findAlgorithm(body0Wrap, body1Wrap);
       if (!retval__) return 0;
-      dub_pushudata(L, retval__, "CollisionAlgorithm *", false);
+      dub_pushudata(L, retval__, "CollisionAlgorithm", false);
       return 1;
     }
   } catch (std::exception &e) {
@@ -67,11 +67,11 @@ static int btDispatcher_findAlgorithm(lua_State *L) {
 static int btDispatcher_getNewManifold(lua_State *L) {
   try {
     btDispatcher *self = *((btDispatcher **)dub_checksdata(L, 1, "bt.Dispatcher"));
-    btCollisionObject *b0 = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject *"));
-    btCollisionObject *b1 = *((btCollisionObject **)dub_checksdata(L, 3, "CollisionObject *"));
+    btCollisionObject *b0 = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+    btCollisionObject *b1 = *((btCollisionObject **)dub_checksdata(L, 3, "CollisionObject"));
     btPersistentManifold *retval__ = self->getNewManifold(b0, b1);
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "PersistentManifold *", false);
+    dub_pushudata(L, retval__, "PersistentManifold", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getNewManifold: %s", e.what());
@@ -87,7 +87,7 @@ static int btDispatcher_getNewManifold(lua_State *L) {
 static int btDispatcher_releaseManifold(lua_State *L) {
   try {
     btDispatcher *self = *((btDispatcher **)dub_checksdata(L, 1, "bt.Dispatcher"));
-    btPersistentManifold *manifold = *((btPersistentManifold **)dub_checksdata(L, 2, "PersistentManifold *"));
+    btPersistentManifold *manifold = *((btPersistentManifold **)dub_checksdata(L, 2, "PersistentManifold"));
     self->releaseManifold(manifold);
     return 0;
   } catch (std::exception &e) {
@@ -104,7 +104,7 @@ static int btDispatcher_releaseManifold(lua_State *L) {
 static int btDispatcher_clearManifold(lua_State *L) {
   try {
     btDispatcher *self = *((btDispatcher **)dub_checksdata(L, 1, "bt.Dispatcher"));
-    btPersistentManifold *manifold = *((btPersistentManifold **)dub_checksdata(L, 2, "PersistentManifold *"));
+    btPersistentManifold *manifold = *((btPersistentManifold **)dub_checksdata(L, 2, "PersistentManifold"));
     self->clearManifold(manifold);
     return 0;
   } catch (std::exception &e) {
@@ -121,8 +121,8 @@ static int btDispatcher_clearManifold(lua_State *L) {
 static int btDispatcher_needsCollision(lua_State *L) {
   try {
     btDispatcher *self = *((btDispatcher **)dub_checksdata(L, 1, "bt.Dispatcher"));
-    btCollisionObject *body0 = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject *"));
-    btCollisionObject *body1 = *((btCollisionObject **)dub_checksdata(L, 3, "CollisionObject *"));
+    btCollisionObject *body0 = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+    btCollisionObject *body1 = *((btCollisionObject **)dub_checksdata(L, 3, "CollisionObject"));
     lua_pushboolean(L, self->needsCollision(body0, body1));
     return 1;
   } catch (std::exception &e) {
@@ -139,8 +139,8 @@ static int btDispatcher_needsCollision(lua_State *L) {
 static int btDispatcher_needsResponse(lua_State *L) {
   try {
     btDispatcher *self = *((btDispatcher **)dub_checksdata(L, 1, "bt.Dispatcher"));
-    btCollisionObject *body0 = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject *"));
-    btCollisionObject *body1 = *((btCollisionObject **)dub_checksdata(L, 3, "CollisionObject *"));
+    btCollisionObject *body0 = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+    btCollisionObject *body1 = *((btCollisionObject **)dub_checksdata(L, 3, "CollisionObject"));
     lua_pushboolean(L, self->needsResponse(body0, body1));
     return 1;
   } catch (std::exception &e) {
@@ -157,7 +157,7 @@ static int btDispatcher_needsResponse(lua_State *L) {
 static int btDispatcher_dispatchAllCollisionPairs(lua_State *L) {
   try {
     btDispatcher *self = *((btDispatcher **)dub_checksdata(L, 1, "bt.Dispatcher"));
-    btOverlappingPairCache *pairCache = *((btOverlappingPairCache **)dub_checksdata(L, 2, "OverlappingPairCache *"));
+    btOverlappingPairCache *pairCache = *((btOverlappingPairCache **)dub_checksdata(L, 2, "OverlappingPairCache"));
     btDispatcherInfo *dispatchInfo = *((btDispatcherInfo **)dub_checksdata(L, 3, "bt.DispatcherInfo"));
     btDispatcher *dispatcher = *((btDispatcher **)dub_checksdata(L, 4, "bt.Dispatcher"));
     self->dispatchAllCollisionPairs(pairCache, *dispatchInfo, dispatcher);
@@ -195,7 +195,7 @@ static int btDispatcher_getManifoldByIndexInternal(lua_State *L) {
     int index = dub_checkint(L, 2);
     btPersistentManifold *retval__ = self->getManifoldByIndexInternal(index);
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "PersistentManifold *", false);
+    dub_pushudata(L, retval__, "PersistentManifold", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getManifoldByIndexInternal: %s", e.what());
@@ -213,7 +213,7 @@ static int btDispatcher_getInternalManifoldPointer(lua_State *L) {
     btDispatcher *self = *((btDispatcher **)dub_checksdata(L, 1, "bt.Dispatcher"));
     btPersistentManifold* *retval__ = self->getInternalManifoldPointer();
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "PersistentManifold* *", false);
+    dub_pushudata(L, retval__, "PersistentManifold*", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getInternalManifoldPointer: %s", e.what());
@@ -231,7 +231,7 @@ static int btDispatcher_getInternalManifoldPool(lua_State *L) {
     btDispatcher *self = *((btDispatcher **)dub_checksdata(L, 1, "bt.Dispatcher"));
     btPoolAllocator *retval__ = self->getInternalManifoldPool();
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "PoolAllocator *", false);
+    dub_pushudata(L, retval__, "PoolAllocator", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getInternalManifoldPool: %s", e.what());

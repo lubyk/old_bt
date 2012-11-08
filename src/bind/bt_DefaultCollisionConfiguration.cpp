@@ -81,7 +81,7 @@ static int btDefaultCollisionConfiguration_getPersistentManifoldPool(lua_State *
     btDefaultCollisionConfiguration *self = *((btDefaultCollisionConfiguration **)dub_checksdata(L, 1, "bt.DefaultCollisionConfiguration"));
     btPoolAllocator *retval__ = self->getPersistentManifoldPool();
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "PoolAllocator *", false);
+    dub_pushudata(L, retval__, "PoolAllocator", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getPersistentManifoldPool: %s", e.what());
@@ -99,7 +99,7 @@ static int btDefaultCollisionConfiguration_getCollisionAlgorithmPool(lua_State *
     btDefaultCollisionConfiguration *self = *((btDefaultCollisionConfiguration **)dub_checksdata(L, 1, "bt.DefaultCollisionConfiguration"));
     btPoolAllocator *retval__ = self->getCollisionAlgorithmPool();
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "PoolAllocator *", false);
+    dub_pushudata(L, retval__, "PoolAllocator", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getCollisionAlgorithmPool: %s", e.what());
@@ -117,7 +117,7 @@ static int btDefaultCollisionConfiguration_getStackAllocator(lua_State *L) {
     btDefaultCollisionConfiguration *self = *((btDefaultCollisionConfiguration **)dub_checksdata(L, 1, "bt.DefaultCollisionConfiguration"));
     btStackAlloc *retval__ = self->getStackAllocator();
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "StackAlloc *", false);
+    dub_pushudata(L, retval__, "StackAlloc", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getStackAllocator: %s", e.what());
@@ -135,7 +135,7 @@ static int btDefaultCollisionConfiguration_getSimplexSolver(lua_State *L) {
     btDefaultCollisionConfiguration *self = *((btDefaultCollisionConfiguration **)dub_checksdata(L, 1, "bt.DefaultCollisionConfiguration"));
     btVoronoiSimplexSolver *retval__ = self->getSimplexSolver();
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "VoronoiSimplexSolver *", false);
+    dub_pushudata(L, retval__, "VoronoiSimplexSolver", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getSimplexSolver: %s", e.what());
@@ -155,7 +155,7 @@ static int btDefaultCollisionConfiguration_getCollisionAlgorithmCreateFunc(lua_S
     int proxyType1 = dub_checkint(L, 3);
     btCollisionAlgorithmCreateFunc *retval__ = self->getCollisionAlgorithmCreateFunc(proxyType0, proxyType1);
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "CollisionAlgorithmCreateFunc *", false);
+    dub_pushudata(L, retval__, "CollisionAlgorithmCreateFunc", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getCollisionAlgorithmCreateFunc: %s", e.what());

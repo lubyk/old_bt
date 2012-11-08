@@ -146,12 +146,12 @@ static int btDiscreteDynamicsWorld_addConstraint(lua_State *L) {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
     int top__ = lua_gettop(L);
     if (top__ >= 3) {
-      btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint *"));
+      btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
       bool disableCollisionsBetweenLinkedBodies = dub_checkboolean(L, 3);
       self->addConstraint(constraint, disableCollisionsBetweenLinkedBodies);
       return 0;
     } else {
-      btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint *"));
+      btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
       self->addConstraint(constraint);
       return 0;
     }
@@ -169,7 +169,7 @@ static int btDiscreteDynamicsWorld_addConstraint(lua_State *L) {
 static int btDiscreteDynamicsWorld_removeConstraint(lua_State *L) {
   try {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
-    btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint *"));
+    btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
     self->removeConstraint(constraint);
     return 0;
   } catch (std::exception &e) {
@@ -186,7 +186,7 @@ static int btDiscreteDynamicsWorld_removeConstraint(lua_State *L) {
 static int btDiscreteDynamicsWorld_addAction(lua_State *L) {
   try {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
-    btActionInterface *p1 = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface *"));
+    btActionInterface *p1 = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface"));
     self->addAction(p1);
     return 0;
   } catch (std::exception &e) {
@@ -203,7 +203,7 @@ static int btDiscreteDynamicsWorld_addAction(lua_State *L) {
 static int btDiscreteDynamicsWorld_removeAction(lua_State *L) {
   try {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
-    btActionInterface *p1 = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface *"));
+    btActionInterface *p1 = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface"));
     self->removeAction(p1);
     return 0;
   } catch (std::exception &e) {
@@ -222,7 +222,7 @@ static int btDiscreteDynamicsWorld_getSimulationIslandManager(lua_State *L) {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
     btSimulationIslandManager *retval__ = self->getSimulationIslandManager();
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "SimulationIslandManager *", false);
+    dub_pushudata(L, retval__, "SimulationIslandManager", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getSimulationIslandManager: %s", e.what());
@@ -240,7 +240,7 @@ static int btDiscreteDynamicsWorld_getCollisionWorld(lua_State *L) {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
     btCollisionWorld *retval__ = self->getCollisionWorld();
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "CollisionWorld *", false);
+    dub_pushudata(L, retval__, "CollisionWorld", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getCollisionWorld: %s", e.what());
@@ -291,18 +291,18 @@ static int btDiscreteDynamicsWorld_addCollisionObject(lua_State *L) {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
     int top__ = lua_gettop(L);
     if (top__ >= 4) {
-      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject *"));
+      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
       short int *collisionFilterGroup = *((short int **)dub_checksdata(L, 3, "short int"));
       short int *collisionFilterMask = *((short int **)dub_checksdata(L, 4, "short int"));
       self->addCollisionObject(collisionObject, *collisionFilterGroup, *collisionFilterMask);
       return 0;
     } else if (top__ >= 3) {
-      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject *"));
+      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
       short int *collisionFilterGroup = *((short int **)dub_checksdata(L, 3, "short int"));
       self->addCollisionObject(collisionObject, *collisionFilterGroup);
       return 0;
     } else {
-      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject *"));
+      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
       self->addCollisionObject(collisionObject);
       return 0;
     }
@@ -363,7 +363,7 @@ static int btDiscreteDynamicsWorld_removeRigidBody(lua_State *L) {
 static int btDiscreteDynamicsWorld_removeCollisionObject(lua_State *L) {
   try {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
-    btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject *"));
+    btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
     self->removeCollisionObject(collisionObject);
     return 0;
   } catch (std::exception &e) {
@@ -380,7 +380,7 @@ static int btDiscreteDynamicsWorld_removeCollisionObject(lua_State *L) {
 static int btDiscreteDynamicsWorld_debugDrawConstraint(lua_State *L) {
   try {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
-    btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint *"));
+    btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
     self->debugDrawConstraint(constraint);
     return 0;
   } catch (std::exception &e) {
@@ -467,7 +467,7 @@ static int btDiscreteDynamicsWorld_getConstraint(lua_State *L) {
     int index = dub_checkint(L, 2);
     btTypedConstraint *retval__ = self->getConstraint(index);
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "TypedConstraint *", false);
+    dub_pushudata(L, retval__, "TypedConstraint", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getConstraint: %s", e.what());
@@ -565,7 +565,7 @@ static int btDiscreteDynamicsWorld_updateVehicles(lua_State *L) {
 static int btDiscreteDynamicsWorld_addVehicle(lua_State *L) {
   try {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
-    btActionInterface *vehicle = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface *"));
+    btActionInterface *vehicle = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface"));
     self->addVehicle(vehicle);
     return 0;
   } catch (std::exception &e) {
@@ -582,7 +582,7 @@ static int btDiscreteDynamicsWorld_addVehicle(lua_State *L) {
 static int btDiscreteDynamicsWorld_removeVehicle(lua_State *L) {
   try {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
-    btActionInterface *vehicle = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface *"));
+    btActionInterface *vehicle = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface"));
     self->removeVehicle(vehicle);
     return 0;
   } catch (std::exception &e) {
@@ -599,7 +599,7 @@ static int btDiscreteDynamicsWorld_removeVehicle(lua_State *L) {
 static int btDiscreteDynamicsWorld_addCharacter(lua_State *L) {
   try {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
-    btActionInterface *character = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface *"));
+    btActionInterface *character = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface"));
     self->addCharacter(character);
     return 0;
   } catch (std::exception &e) {
@@ -616,7 +616,7 @@ static int btDiscreteDynamicsWorld_addCharacter(lua_State *L) {
 static int btDiscreteDynamicsWorld_removeCharacter(lua_State *L) {
   try {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
-    btActionInterface *character = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface *"));
+    btActionInterface *character = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface"));
     self->removeCharacter(character);
     return 0;
   } catch (std::exception &e) {
@@ -699,7 +699,7 @@ static int btDiscreteDynamicsWorld_getApplySpeculativeContactRestitution(lua_Sta
 static int btDiscreteDynamicsWorld_serialize(lua_State *L) {
   try {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
-    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 2, "Serializer *"));
+    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 2, "Serializer"));
     self->serialize(serializer);
     return 0;
   } catch (std::exception &e) {
@@ -718,18 +718,18 @@ static int btDiscreteDynamicsWorld_setInternalTickCallback(lua_State *L) {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
     int top__ = lua_gettop(L);
     if (top__ >= 4) {
-      btInternalTickCallback *cb = *((btInternalTickCallback **)dub_checksdata(L, 2, "InternalTickCallback *"));
+      btInternalTickCallback *cb = *((btInternalTickCallback **)dub_checksdata(L, 2, "InternalTickCallback"));
       void *worldUserInfo = *((void **)dub_checksdata(L, 3, "void"));
       bool isPreTick = dub_checkboolean(L, 4);
       self->setInternalTickCallback(*cb, worldUserInfo, isPreTick);
       return 0;
     } else if (top__ >= 3) {
-      btInternalTickCallback *cb = *((btInternalTickCallback **)dub_checksdata(L, 2, "InternalTickCallback *"));
+      btInternalTickCallback *cb = *((btInternalTickCallback **)dub_checksdata(L, 2, "InternalTickCallback"));
       void *worldUserInfo = *((void **)dub_checksdata(L, 3, "void"));
       self->setInternalTickCallback(*cb, worldUserInfo);
       return 0;
     } else {
-      btInternalTickCallback *cb = *((btInternalTickCallback **)dub_checksdata(L, 2, "InternalTickCallback *"));
+      btInternalTickCallback *cb = *((btInternalTickCallback **)dub_checksdata(L, 2, "InternalTickCallback"));
       self->setInternalTickCallback(*cb);
       return 0;
     }

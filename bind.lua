@@ -20,6 +20,7 @@ dub.warn_level = 4
 
 local ins = dub.Inspector {
   INPUT   = {
+    base    .. '/include',
     bt_base .. '/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h',
     bt_base .. '/BulletCollision/BroadphaseCollision/btDbvtBroadphase.h',
     bt_base .. '/BulletCollision/BroadphaseCollision/btDispatcher.h',
@@ -93,6 +94,8 @@ binder:bind(ins, {
   -- Other name so that we can first load bt.lua
   luaopen = 'bt_core',
   only = {
+    'LkMotionState',
+
      -- BulletCollision/BroadphaseCollision:
     'btBroadphaseInterface',
     'btDbvtBroadphase',

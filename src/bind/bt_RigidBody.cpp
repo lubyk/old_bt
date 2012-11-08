@@ -924,7 +924,7 @@ static int btRigidBody_getBroadphaseProxy(lua_State *L) {
     btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
     const btBroadphaseProxy *retval__ = self->getBroadphaseProxy();
     if (!retval__) return 0;
-    dub_pushudata(L, const_cast<btBroadphaseProxy*>(retval__), "BroadphaseProxy *", false);
+    dub_pushudata(L, const_cast<btBroadphaseProxy*>(retval__), "BroadphaseProxy", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getBroadphaseProxy: %s", e.what());
@@ -940,7 +940,7 @@ static int btRigidBody_getBroadphaseProxy(lua_State *L) {
 static int btRigidBody_setNewBroadphaseProxy(lua_State *L) {
   try {
     btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
-    btBroadphaseProxy *broadphaseProxy = *((btBroadphaseProxy **)dub_checksdata(L, 2, "BroadphaseProxy *"));
+    btBroadphaseProxy *broadphaseProxy = *((btBroadphaseProxy **)dub_checksdata(L, 2, "BroadphaseProxy"));
     self->setNewBroadphaseProxy(broadphaseProxy);
     return 0;
   } catch (std::exception &e) {
@@ -1048,7 +1048,7 @@ static int btRigidBody_isInWorld(lua_State *L) {
 static int btRigidBody_checkCollideWithOverride(lua_State *L) {
   try {
     btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
-    btCollisionObject *co = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject *"));
+    btCollisionObject *co = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
     lua_pushboolean(L, self->checkCollideWithOverride(co));
     return 1;
   } catch (std::exception &e) {
@@ -1065,7 +1065,7 @@ static int btRigidBody_checkCollideWithOverride(lua_State *L) {
 static int btRigidBody_addConstraintRef(lua_State *L) {
   try {
     btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
-    btTypedConstraint *c = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint *"));
+    btTypedConstraint *c = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
     self->addConstraintRef(c);
     return 0;
   } catch (std::exception &e) {
@@ -1082,7 +1082,7 @@ static int btRigidBody_addConstraintRef(lua_State *L) {
 static int btRigidBody_removeConstraintRef(lua_State *L) {
   try {
     btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
-    btTypedConstraint *c = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint *"));
+    btTypedConstraint *c = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
     self->removeConstraintRef(c);
     return 0;
   } catch (std::exception &e) {
@@ -1102,7 +1102,7 @@ static int btRigidBody_getConstraintRef(lua_State *L) {
     int index = dub_checkint(L, 2);
     btTypedConstraint *retval__ = self->getConstraintRef(index);
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "TypedConstraint *", false);
+    dub_pushudata(L, retval__, "TypedConstraint", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getConstraintRef: %s", e.what());
@@ -1201,7 +1201,7 @@ static int btRigidBody_serialize(lua_State *L) {
   try {
     btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
     void *dataBuffer = *((void **)dub_checksdata(L, 2, "void"));
-    class btSerializer *serializer = *((class btSerializer **)dub_checksdata(L, 3, "class btSerializer *"));
+    class btSerializer *serializer = *((class btSerializer **)dub_checksdata(L, 3, "class btSerializer"));
     lua_pushstring(L, self->serialize(dataBuffer, serializer));
     return 1;
   } catch (std::exception &e) {
@@ -1218,7 +1218,7 @@ static int btRigidBody_serialize(lua_State *L) {
 static int btRigidBody_serializeSingleObject(lua_State *L) {
   try {
     btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
-    class btSerializer *serializer = *((class btSerializer **)dub_checksdata(L, 2, "class btSerializer *"));
+    class btSerializer *serializer = *((class btSerializer **)dub_checksdata(L, 2, "class btSerializer"));
     self->serializeSingleObject(serializer);
     return 0;
   } catch (std::exception &e) {
@@ -1234,7 +1234,7 @@ static int btRigidBody_serializeSingleObject(lua_State *L) {
  */
 static int btRigidBody_upcast(lua_State *L) {
   try {
-    btCollisionObject *colObj = *((btCollisionObject **)dub_checksdata(L, 1, "CollisionObject *"));
+    btCollisionObject *colObj = *((btCollisionObject **)dub_checksdata(L, 1, "CollisionObject"));
     const btRigidBody *retval__ = btRigidBody::upcast(colObj);
     if (!retval__) return 0;
     dub_pushudata(L, const_cast<btRigidBody*>(retval__), "bt.RigidBody", false);

@@ -97,7 +97,7 @@ static int btStaticPlaneShape_getAabb(lua_State *L) {
 static int btStaticPlaneShape_processAllTriangles(lua_State *L) {
   try {
     btStaticPlaneShape *self = *((btStaticPlaneShape **)dub_checksdata(L, 1, "bt.StaticPlaneShape"));
-    btTriangleCallback *callback = *((btTriangleCallback **)dub_checksdata(L, 2, "TriangleCallback *"));
+    btTriangleCallback *callback = *((btTriangleCallback **)dub_checksdata(L, 2, "TriangleCallback"));
     btVector3 *aabbMin = *((btVector3 **)dub_checksdata(L, 3, "bt.Vector3"));
     btVector3 *aabbMax = *((btVector3 **)dub_checksdata(L, 4, "bt.Vector3"));
     self->processAllTriangles(callback, *aabbMin, *aabbMax);
@@ -232,7 +232,7 @@ static int btStaticPlaneShape_serialize(lua_State *L) {
   try {
     btStaticPlaneShape *self = *((btStaticPlaneShape **)dub_checksdata(L, 1, "bt.StaticPlaneShape"));
     void *dataBuffer = *((void **)dub_checksdata(L, 2, "void"));
-    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 3, "Serializer *"));
+    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 3, "Serializer"));
     lua_pushstring(L, self->serialize(dataBuffer, serializer));
     return 1;
   } catch (std::exception &e) {
@@ -548,7 +548,7 @@ static int btStaticPlaneShape_getUserPointer(lua_State *L) {
 static int btStaticPlaneShape_serializeSingleShape(lua_State *L) {
   try {
     btStaticPlaneShape *self = *((btStaticPlaneShape **)dub_checksdata(L, 1, "bt.StaticPlaneShape"));
-    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 2, "Serializer *"));
+    btSerializer *serializer = *((btSerializer **)dub_checksdata(L, 2, "Serializer"));
     self->serializeSingleShape(serializer);
     return 0;
   } catch (std::exception &e) {

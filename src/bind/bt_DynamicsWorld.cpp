@@ -85,12 +85,12 @@ static int btDynamicsWorld_addConstraint(lua_State *L) {
     btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
     int top__ = lua_gettop(L);
     if (top__ >= 3) {
-      btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint *"));
+      btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
       bool disableCollisionsBetweenLinkedBodies = dub_checkboolean(L, 3);
       self->addConstraint(constraint, disableCollisionsBetweenLinkedBodies);
       return 0;
     } else {
-      btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint *"));
+      btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
       self->addConstraint(constraint);
       return 0;
     }
@@ -108,7 +108,7 @@ static int btDynamicsWorld_addConstraint(lua_State *L) {
 static int btDynamicsWorld_removeConstraint(lua_State *L) {
   try {
     btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
-    btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint *"));
+    btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
     self->removeConstraint(constraint);
     return 0;
   } catch (std::exception &e) {
@@ -125,7 +125,7 @@ static int btDynamicsWorld_removeConstraint(lua_State *L) {
 static int btDynamicsWorld_addAction(lua_State *L) {
   try {
     btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
-    btActionInterface *action = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface *"));
+    btActionInterface *action = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface"));
     self->addAction(action);
     return 0;
   } catch (std::exception &e) {
@@ -142,7 +142,7 @@ static int btDynamicsWorld_addAction(lua_State *L) {
 static int btDynamicsWorld_removeAction(lua_State *L) {
   try {
     btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
-    btActionInterface *action = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface *"));
+    btActionInterface *action = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface"));
     self->removeAction(action);
     return 0;
   } catch (std::exception &e) {
@@ -305,7 +305,7 @@ static int btDynamicsWorld_getConstraint(lua_State *L) {
     int index = dub_checkint(L, 2);
     btTypedConstraint *retval__ = self->getConstraint(index);
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "TypedConstraint *", false);
+    dub_pushudata(L, retval__, "TypedConstraint", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getConstraint: %s", e.what());
@@ -355,18 +355,18 @@ static int btDynamicsWorld_setInternalTickCallback(lua_State *L) {
     btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
     int top__ = lua_gettop(L);
     if (top__ >= 4) {
-      btInternalTickCallback *cb = *((btInternalTickCallback **)dub_checksdata(L, 2, "InternalTickCallback *"));
+      btInternalTickCallback *cb = *((btInternalTickCallback **)dub_checksdata(L, 2, "InternalTickCallback"));
       void *worldUserInfo = *((void **)dub_checksdata(L, 3, "void"));
       bool isPreTick = dub_checkboolean(L, 4);
       self->setInternalTickCallback(*cb, worldUserInfo, isPreTick);
       return 0;
     } else if (top__ >= 3) {
-      btInternalTickCallback *cb = *((btInternalTickCallback **)dub_checksdata(L, 2, "InternalTickCallback *"));
+      btInternalTickCallback *cb = *((btInternalTickCallback **)dub_checksdata(L, 2, "InternalTickCallback"));
       void *worldUserInfo = *((void **)dub_checksdata(L, 3, "void"));
       self->setInternalTickCallback(*cb, worldUserInfo);
       return 0;
     } else {
-      btInternalTickCallback *cb = *((btInternalTickCallback **)dub_checksdata(L, 2, "InternalTickCallback *"));
+      btInternalTickCallback *cb = *((btInternalTickCallback **)dub_checksdata(L, 2, "InternalTickCallback"));
       self->setInternalTickCallback(*cb);
       return 0;
     }
@@ -433,7 +433,7 @@ static int btDynamicsWorld_getSolverInfo(lua_State *L) {
 static int btDynamicsWorld_addVehicle(lua_State *L) {
   try {
     btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
-    btActionInterface *vehicle = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface *"));
+    btActionInterface *vehicle = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface"));
     self->addVehicle(vehicle);
     return 0;
   } catch (std::exception &e) {
@@ -450,7 +450,7 @@ static int btDynamicsWorld_addVehicle(lua_State *L) {
 static int btDynamicsWorld_removeVehicle(lua_State *L) {
   try {
     btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
-    btActionInterface *vehicle = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface *"));
+    btActionInterface *vehicle = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface"));
     self->removeVehicle(vehicle);
     return 0;
   } catch (std::exception &e) {
@@ -467,7 +467,7 @@ static int btDynamicsWorld_removeVehicle(lua_State *L) {
 static int btDynamicsWorld_addCharacter(lua_State *L) {
   try {
     btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
-    btActionInterface *character = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface *"));
+    btActionInterface *character = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface"));
     self->addCharacter(character);
     return 0;
   } catch (std::exception &e) {
@@ -484,7 +484,7 @@ static int btDynamicsWorld_addCharacter(lua_State *L) {
 static int btDynamicsWorld_removeCharacter(lua_State *L) {
   try {
     btDynamicsWorld *self = *((btDynamicsWorld **)dub_checksdata(L, 1, "bt.DynamicsWorld"));
-    btActionInterface *character = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface *"));
+    btActionInterface *character = *((btActionInterface **)dub_checksdata(L, 2, "ActionInterface"));
     self->removeCharacter(character);
     return 0;
   } catch (std::exception &e) {

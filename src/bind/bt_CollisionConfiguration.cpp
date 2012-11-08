@@ -38,7 +38,7 @@ static int btCollisionConfiguration_getPersistentManifoldPool(lua_State *L) {
     btCollisionConfiguration *self = *((btCollisionConfiguration **)dub_checksdata(L, 1, "bt.CollisionConfiguration"));
     btPoolAllocator *retval__ = self->getPersistentManifoldPool();
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "PoolAllocator *", false);
+    dub_pushudata(L, retval__, "PoolAllocator", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getPersistentManifoldPool: %s", e.what());
@@ -56,7 +56,7 @@ static int btCollisionConfiguration_getCollisionAlgorithmPool(lua_State *L) {
     btCollisionConfiguration *self = *((btCollisionConfiguration **)dub_checksdata(L, 1, "bt.CollisionConfiguration"));
     btPoolAllocator *retval__ = self->getCollisionAlgorithmPool();
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "PoolAllocator *", false);
+    dub_pushudata(L, retval__, "PoolAllocator", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getCollisionAlgorithmPool: %s", e.what());
@@ -74,7 +74,7 @@ static int btCollisionConfiguration_getStackAllocator(lua_State *L) {
     btCollisionConfiguration *self = *((btCollisionConfiguration **)dub_checksdata(L, 1, "bt.CollisionConfiguration"));
     btStackAlloc *retval__ = self->getStackAllocator();
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "StackAlloc *", false);
+    dub_pushudata(L, retval__, "StackAlloc", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getStackAllocator: %s", e.what());
@@ -94,7 +94,7 @@ static int btCollisionConfiguration_getCollisionAlgorithmCreateFunc(lua_State *L
     int proxyType1 = dub_checkint(L, 3);
     btCollisionAlgorithmCreateFunc *retval__ = self->getCollisionAlgorithmCreateFunc(proxyType0, proxyType1);
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "CollisionAlgorithmCreateFunc *", false);
+    dub_pushudata(L, retval__, "CollisionAlgorithmCreateFunc", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getCollisionAlgorithmCreateFunc: %s", e.what());

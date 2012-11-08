@@ -42,12 +42,18 @@ function should.work()
   local groundRigidBody = bt.RigidBody(groundRigidBodyCI)
   dynamicsWorld:addRigidBody(groundRigidBody)
 
-  local fallMotionState = bt.DefaultMotionState(
-    bt.Transform(
-      bt.Quaternion(0,0,0,1),
-      bt.Vector3(0,50,0)
-    )
-  )
+  local fallMotionState = bt.MotionState()
+  function fallMotionState:getWorldTransform(worldTrans)
+    -- Called to get initial ball position
+    worldTrans:setBasis(bt.Quaternion(0,0,0,1))
+    worldTrans:setOrigin(bt.Vector3(0,50,0))
+  end
+
+  function fallMotionState:setWorldTransform(worldTrans)
+    -- Called when the ball position changes
+    print('sphere height:', worldTrans:getOrigin():getY())
+  end
+
   local mass = 1
   local fallInertia = bt.Vector3(0,0,0)
   fallShape:calculateLocalInertia(mass,fallInertia)
@@ -61,38 +67,12 @@ function should.work()
   local fallRigidBody = bt.RigidBody(fallRigidBodyCI)
   dynamicsWorld:addRigidBody(fallRigidBody)
 
-
   for i = 0,300 do
     dynamicsWorld:stepSimulation(1/60,10)
-
-    local trans = bt.Transform()
-    fallRigidBody:getMotionState():getWorldTransform(trans)
-
-    print('sphere height:', trans:getOrigin():getY())
   end
 
-  --[[
-  dynamicsWorld->removeRigidBody(fallRigidBody);
-  delete fallRigidBody->getMotionState();
-  delete fallRigidBody;
-
-  dynamicsWorld->removeRigidBody(groundRigidBody);
-  delete groundRigidBody->getMotionState();
-  delete groundRigidBody;
-
-
-  delete fallShape;
-
-  delete groundShape;
-
-
-  delete dynamicsWorld;
-  delete solver;
-  delete collisionConfiguration;
-  delete dispatcher;
-  delete broadphase;
-
-  --]]
+  dynamicsWorld:removeRigidBody(fallRigidBody)
+  dynamicsWorld:removeRigidBody(groundRigidBody)
 end
 
 test.all()

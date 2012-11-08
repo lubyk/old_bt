@@ -46,7 +46,7 @@ static int btBroadphaseInterface_createProxy(lua_State *L) {
     void *multiSapProxy = *((void **)dub_checksdata(L, 9, "void"));
     btBroadphaseProxy *retval__ = self->createProxy(*aabbMin, *aabbMax, shapeType, userPtr, *collisionFilterGroup, *collisionFilterMask, dispatcher, multiSapProxy);
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "BroadphaseProxy *", false);
+    dub_pushudata(L, retval__, "BroadphaseProxy", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "createProxy: %s", e.what());
@@ -62,7 +62,7 @@ static int btBroadphaseInterface_createProxy(lua_State *L) {
 static int btBroadphaseInterface_destroyProxy(lua_State *L) {
   try {
     btBroadphaseInterface *self = *((btBroadphaseInterface **)dub_checksdata(L, 1, "bt.BroadphaseInterface"));
-    btBroadphaseProxy *proxy = *((btBroadphaseProxy **)dub_checksdata(L, 2, "BroadphaseProxy *"));
+    btBroadphaseProxy *proxy = *((btBroadphaseProxy **)dub_checksdata(L, 2, "BroadphaseProxy"));
     btDispatcher *dispatcher = *((btDispatcher **)dub_checksdata(L, 3, "bt.Dispatcher"));
     self->destroyProxy(proxy, dispatcher);
     return 0;
@@ -80,7 +80,7 @@ static int btBroadphaseInterface_destroyProxy(lua_State *L) {
 static int btBroadphaseInterface_setAabb(lua_State *L) {
   try {
     btBroadphaseInterface *self = *((btBroadphaseInterface **)dub_checksdata(L, 1, "bt.BroadphaseInterface"));
-    btBroadphaseProxy *proxy = *((btBroadphaseProxy **)dub_checksdata(L, 2, "BroadphaseProxy *"));
+    btBroadphaseProxy *proxy = *((btBroadphaseProxy **)dub_checksdata(L, 2, "BroadphaseProxy"));
     btVector3 *aabbMin = *((btVector3 **)dub_checksdata(L, 3, "bt.Vector3"));
     btVector3 *aabbMax = *((btVector3 **)dub_checksdata(L, 4, "bt.Vector3"));
     btDispatcher *dispatcher = *((btDispatcher **)dub_checksdata(L, 5, "bt.Dispatcher"));
@@ -100,7 +100,7 @@ static int btBroadphaseInterface_setAabb(lua_State *L) {
 static int btBroadphaseInterface_getAabb(lua_State *L) {
   try {
     btBroadphaseInterface *self = *((btBroadphaseInterface **)dub_checksdata(L, 1, "bt.BroadphaseInterface"));
-    btBroadphaseProxy *proxy = *((btBroadphaseProxy **)dub_checksdata(L, 2, "BroadphaseProxy *"));
+    btBroadphaseProxy *proxy = *((btBroadphaseProxy **)dub_checksdata(L, 2, "BroadphaseProxy"));
     btVector3 *aabbMin = *((btVector3 **)dub_checksdata(L, 3, "bt.Vector3"));
     btVector3 *aabbMax = *((btVector3 **)dub_checksdata(L, 4, "bt.Vector3"));
     self->getAabb(proxy, *aabbMin, *aabbMax);
@@ -194,7 +194,7 @@ static int btBroadphaseInterface_getOverlappingPairCache(lua_State *L) {
     btBroadphaseInterface *self = *((btBroadphaseInterface **)dub_checksdata(L, 1, "bt.BroadphaseInterface"));
     btOverlappingPairCache *retval__ = self->getOverlappingPairCache();
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "OverlappingPairCache *", false);
+    dub_pushudata(L, retval__, "OverlappingPairCache", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getOverlappingPairCache: %s", e.what());
