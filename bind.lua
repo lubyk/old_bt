@@ -39,9 +39,14 @@ local ins = dub.Inspector {
     bt_base .. '/BulletDynamics/ConstraintSolver/btConstraintSolver.h',
     bt_base .. '/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h',
 
+    base .. '/bind/btPoint2PointConstraint.h',
+    base .. '/bind/btTypedConstraint.h',
+
     bt_base .. '/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h',
     bt_base .. '/BulletDynamics/Dynamics/btDynamicsWorld.h',
     bt_base .. '/BulletDynamics/Dynamics/btRigidBody.h',
+
+
 
     bt_base .. '/LinearMath/btDefaultMotionState.h',
     bt_base .. '/LinearMath/btMotionState.h',
@@ -90,12 +95,23 @@ function binder:constName(name)
   return name
 end
 
+local BIND_TO_HEADER = {
+  ['btPoint2PointConstraint.h'] = 'BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h',
+  ['btTypedConstraint.h']       = 'BulletDynamics/ConstraintSolver/btTypedConstraint.h',
+}
+local h = binder.header
+function binder:header(name)
+  local n = h(self, name)
+  return BIND_TO_HEADER[n] or n
+end
+
 binder:bind(ins, {
   output_directory = base .. '/src/bind',
   -- Remove this part in headers
   header_base = {
     bt_base,
     base .. '/include',
+    base .. '/bind',
     base .. '/src/vendor/bullet/Demos/OpenGL',
   },
 
@@ -131,6 +147,8 @@ binder:bind(ins, {
     -- BulletDynamics/ConstraintSolver:
     'btConstraintSolver',
     'btSequentialImpulseConstraintSolver',
+    'btTypedConstraint',
+    'btPoint2PointConstraint',
 
     -- BulletDynamics/Dynamics:
     'btDiscreteDynamicsWorld',

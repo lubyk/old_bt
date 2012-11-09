@@ -1,9 +1,9 @@
 require 'lubyk'
 math.randomseed(os.time())
 
-local MAX_BODIES = 700
 local win = mimas.LegacyGLWindow()
 
+--=============================================== DEBUG DRAWING
 local drawer 
 local mouse = {x = -10, y = 10}
 
@@ -25,6 +25,7 @@ else
   end
 end
 
+--=============================================== WORLD SETUP
 local broadphase = bt.DbvtBroadphase()
 local collisionConfiguration = bt.DefaultCollisionConfiguration()
 local dispatcher = bt.CollisionDispatcher(collisionConfiguration)
@@ -54,51 +55,73 @@ groundRigidBodyCI.m_restitution = 1.0
 local groundRigidBody = bt.RigidBody(groundRigidBodyCI)
 dynamicsWorld:addRigidBody(groundRigidBody)
 
-local fallShape = bt.SphereShape(0.3)
-local fallMotionState = bt.MotionState()
-function fallMotionState:getWorldTransform(worldTrans)
-  -- Called to get initial ball position
-  worldTrans:setRotation(bt.Quaternion(0,0,0,1))
-  worldTrans:setOrigin(bt.Vector3(2 * math.random() - 1, 8 * math.random(), 2 * math.random() - 1))
-end
+--=============================================== SHAPES
+local snake = {}
+local SNAKE_SIZE = 8
+local MAX_BODIES = 15
+local BALL_MARGIN = 0.4 -- Margin + ball = 1.0
+local ELEM_SIZE = SNAKE_SIZE / MAX_BODIES
+local BALL_RADIUS = 0.8 * ELEM_SIZE * (1 - BALL_MARGIN)
 
-function fallMotionState:setWorldTransform(worldTrans)
-  -- Called when the ball position changes
-  --print('sphere height:', worldTrans:getOrigin():getY())
-end
+local elem
+local ORIGIN_X = 0
+local ORIGIN_Y = 8
+local ORIGIN_Z = 0
 
-local mass = 1
-local fallInertia = bt.Vector3(0,0,0)
-fallShape:calculateLocalInertia(mass,fallInertia)
-local fallRigidBodyCI = bt.RigidBody.RigidBodyConstructionInfo(
-  mass,
-  fallMotionState,
-  fallShape,
-  fallInertia
-)
-fallRigidBodyCI.m_restitution = 0.5
-fallRigidBodyCI.m_linearDamping = 0.2
+--=============================================== Compute inertia
+local MASS = 1
+local INERTIA = bt.Vector3(0,0,0)
+local ELEM_SHAPE = bt.SphereShape(BALL_RADIUS)
+ELEM_SHAPE:calculateLocalInertia(MASS, INERTIA)
 
-local bodies = {_count = 0}
-adder = lk.Timer(5, function()
-  if bodies._count < MAX_BODIES then
-    local fallRigidBody = bt.RigidBody(fallRigidBodyCI)
-    dynamicsWorld:addRigidBody(fallRigidBody)
-    table.insert(bodies, fallRigidBody)
-    bodies._count = bodies._count + 1
-  else
-    adder:stop()
+local DIAG_SN = (SNAKE_SIZE / 2) / math.sqrt(2)
+local x = ORIGIN_X - DIAG_SN
+local y = ORIGIN_Y - DIAG_SN
+
+local DIAG_STEP = 1.3 * ELEM_SIZE / math.sqrt(2)
+-- snake: BALL ----- + ----- BALL -- + -- BALL
+--         forw ---->|<---- back
+local back = bt.Vector3(-DIAG_STEP/2, -DIAG_STEP/2, 0)
+local forw = bt.Vector3(DIAG_STEP/2, DIAG_STEP/2, 0)
+local NoRotation = bt.Quaternion(0,0,0,1)
+
+for i=1,MAX_BODIES do
+  local prev = elem
+  elem = {shape = ELEM_SHAPE}
+  elem.motion = bt.DefaultMotionState(bt.Transform(NoRotation, bt.Vector3(x, y, 2 * math.random())))
+
+  local ci = bt.RigidBody.RigidBodyConstructionInfo(
+    MASS,
+    elem.motion,
+    ELEM_SHAPE,
+    INERTIA
+  )
+  elem.ci = ci
+  ci.m_restitution = 0.5
+  ci.m_linearDamping = 0.2
+
+  elem.body = bt.RigidBody(elem.ci)
+  dynamicsWorld:addRigidBody(elem.body)
+  table.insert(snake, elem)
+
+  if prev then
+    -- Create constraint
+    elem.constraint = bt.Point2PointConstraint(prev.body, elem.body, forw, back)
+    dynamicsWorld:addConstraint(elem.constraint)
   end
-end)
-adder:start()
 
-function win:click(x, y, op)
-  if op == mimas.MousePress then
-    for i, fallRigidBody in ipairs(bodies) do
-      fallRigidBody:translate(bt.Vector3(math.random(), 7 * math.random(), math.random()))
-    end
-  end
+  x = x + DIAG_STEP
+  y = y + DIAG_STEP
 end
+
+--=============================================== OpenGL Window setup
+--function win:click(x, y, op)
+--  if op == mimas.MousePress then
+--    for i, fallRigidBody in ipairs(bodies) do
+--      fallRigidBody:translate(bt.Vector3(math.random(), 7 * math.random(), math.random()))
+--    end
+--  end
+--end
 
 function win:mouse(x, y)
   mouse.x = x
@@ -127,9 +150,10 @@ win:move(800, 10)
 win:resize(900,900)
 win:show()
 
+--=============================================== Simulation
 local step = 1/60
 timer = lk.Timer(step * 1000, function()
-  dynamicsWorld:stepSimulation(step,10)
+  dynamicsWorld:stepSimulation(step / 2,10)
   win:update()
 end)
 timer:start()

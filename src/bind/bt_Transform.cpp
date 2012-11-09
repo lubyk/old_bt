@@ -84,6 +84,23 @@ static int btTransform_btTransform(lua_State *L) {
   return dub_error(L);
 }
 
+/** btTransform& btTransform::operator=(const btTransform &other)
+ * src/vendor/bullet/src/LinearMath/btTransform.h:70
+ */
+static int btTransform_operator_sete(lua_State *L) {
+  try {
+    btTransform *self = *((btTransform **)dub_checksdata(L, 1, "bt.Transform"));
+    btTransform *other = *((btTransform **)dub_checksdata(L, 2, "bt.Transform"));
+    dub_pushudata(L, &self->operator=(*other), "bt.Transform", false);
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "operator=: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "operator=: Unknown exception");
+  }
+  return dub_error(L);
+}
+
 /** void btTransform::mult(const btTransform &t1, const btTransform &t2)
  * src/vendor/bullet/src/LinearMath/btTransform.h:81
  */
@@ -479,6 +496,7 @@ static int btTransform___tostring(lua_State *L) {
 static const struct luaL_Reg btTransform_member_methods[] = {
   { "__gc"         , btTransform__btTransform },
   { "new"          , btTransform_btTransform },
+  { "set"          , btTransform_operator_sete },
   { "mult"         , btTransform_mult     },
   { "__call"       , btTransform_operator_call },
   { "__mul"        , btTransform_operator_mul },

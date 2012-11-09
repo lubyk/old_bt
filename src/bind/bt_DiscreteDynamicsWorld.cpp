@@ -146,12 +146,12 @@ static int btDiscreteDynamicsWorld_addConstraint(lua_State *L) {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
     int top__ = lua_gettop(L);
     if (top__ >= 3) {
-      btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
+      btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "bt.TypedConstraint"));
       bool disableCollisionsBetweenLinkedBodies = dub_checkboolean(L, 3);
       self->addConstraint(constraint, disableCollisionsBetweenLinkedBodies);
       return 0;
     } else {
-      btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
+      btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "bt.TypedConstraint"));
       self->addConstraint(constraint);
       return 0;
     }
@@ -169,7 +169,7 @@ static int btDiscreteDynamicsWorld_addConstraint(lua_State *L) {
 static int btDiscreteDynamicsWorld_removeConstraint(lua_State *L) {
   try {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
-    btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
+    btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "bt.TypedConstraint"));
     self->removeConstraint(constraint);
     return 0;
   } catch (std::exception &e) {
@@ -380,7 +380,7 @@ static int btDiscreteDynamicsWorld_removeCollisionObject(lua_State *L) {
 static int btDiscreteDynamicsWorld_debugDrawConstraint(lua_State *L) {
   try {
     btDiscreteDynamicsWorld *self = *((btDiscreteDynamicsWorld **)dub_checksdata(L, 1, "bt.DiscreteDynamicsWorld"));
-    btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
+    btTypedConstraint *constraint = *((btTypedConstraint **)dub_checksdata(L, 2, "bt.TypedConstraint"));
     self->debugDrawConstraint(constraint);
     return 0;
   } catch (std::exception &e) {
@@ -467,7 +467,7 @@ static int btDiscreteDynamicsWorld_getConstraint(lua_State *L) {
     int index = dub_checkint(L, 2);
     btTypedConstraint *retval__ = self->getConstraint(index);
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "TypedConstraint", false);
+    dub_pushudata(L, retval__, "bt.TypedConstraint", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getConstraint: %s", e.what());

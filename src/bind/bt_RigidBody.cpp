@@ -1065,7 +1065,7 @@ static int btRigidBody_checkCollideWithOverride(lua_State *L) {
 static int btRigidBody_addConstraintRef(lua_State *L) {
   try {
     btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
-    btTypedConstraint *c = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
+    btTypedConstraint *c = *((btTypedConstraint **)dub_checksdata(L, 2, "bt.TypedConstraint"));
     self->addConstraintRef(c);
     return 0;
   } catch (std::exception &e) {
@@ -1082,7 +1082,7 @@ static int btRigidBody_addConstraintRef(lua_State *L) {
 static int btRigidBody_removeConstraintRef(lua_State *L) {
   try {
     btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
-    btTypedConstraint *c = *((btTypedConstraint **)dub_checksdata(L, 2, "TypedConstraint"));
+    btTypedConstraint *c = *((btTypedConstraint **)dub_checksdata(L, 2, "bt.TypedConstraint"));
     self->removeConstraintRef(c);
     return 0;
   } catch (std::exception &e) {
@@ -1102,7 +1102,7 @@ static int btRigidBody_getConstraintRef(lua_State *L) {
     int index = dub_checkint(L, 2);
     btTypedConstraint *retval__ = self->getConstraintRef(index);
     if (!retval__) return 0;
-    dub_pushudata(L, retval__, "TypedConstraint", false);
+    dub_pushudata(L, retval__, "bt.TypedConstraint", false);
     return 1;
   } catch (std::exception &e) {
     lua_pushfstring(L, "getConstraintRef: %s", e.what());

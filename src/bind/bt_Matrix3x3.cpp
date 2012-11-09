@@ -76,6 +76,23 @@ static int btMatrix3x3_btMatrix3x3(lua_State *L) {
   return dub_error(L);
 }
 
+/** btMatrix3x3& btMatrix3x3::operator=(const btMatrix3x3 &other)
+ * src/vendor/bullet/src/LinearMath/btMatrix3x3.h:118
+ */
+static int btMatrix3x3_operator_sete(lua_State *L) {
+  try {
+    btMatrix3x3 *self = *((btMatrix3x3 **)dub_checksdata(L, 1, "bt.Matrix3x3"));
+    btMatrix3x3 *other = *((btMatrix3x3 **)dub_checksdata(L, 2, "bt.Matrix3x3"));
+    dub_pushudata(L, &self->operator=(*other), "bt.Matrix3x3", false);
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "operator=: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "operator=: Unknown exception");
+  }
+  return dub_error(L);
+}
+
 /** btVector3 btMatrix3x3::getColumn(int i) const
  * src/vendor/bullet/src/LinearMath/btMatrix3x3.h:130
  */
@@ -706,6 +723,7 @@ static int btMatrix3x3___tostring(lua_State *L) {
 static const struct luaL_Reg btMatrix3x3_member_methods[] = {
   { "__gc"         , btMatrix3x3__btMatrix3x3 },
   { "new"          , btMatrix3x3_btMatrix3x3 },
+  { "set"          , btMatrix3x3_operator_sete },
   { "getColumn"    , btMatrix3x3_getColumn },
   { "getRow"       , btMatrix3x3_getRow   },
   { "__index"      , btMatrix3x3__get_    },
