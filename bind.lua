@@ -20,7 +20,6 @@ dub.warn_level = 4
 
 local ins = dub.Inspector {
   INPUT   = {
-    base    .. '/include',
     bt_base .. '/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h',
     bt_base .. '/BulletCollision/BroadphaseCollision/btDbvtBroadphase.h',
     bt_base .. '/BulletCollision/BroadphaseCollision/btDispatcher.h',
@@ -54,7 +53,8 @@ local ins = dub.Inspector {
     bt_base .. '/LinearMath/btMatrix3x3.h',
     bt_base .. '/LinearMath/btIDebugDraw.h',
 
-    base .. '/src/vendor/bullet/Demos/OpenGL/GLDebugDrawer.h',
+    base    .. '/include',
+    base    .. '/src/vendor/bullet/Demos/OpenGL/GLDebugDrawer.h',
   },
 
   PREDEFINED = '"SIMD_FORCE_INLINE=" "ATTRIBUTE_ALIGNED16(name)=name" "BT_DECLARE_ALIGNED_ALLOCATOR()="',
@@ -93,7 +93,12 @@ end
 binder:bind(ins, {
   output_directory = base .. '/src/bind',
   -- Remove this part in headers
-  header_base = {bt_base},
+  header_base = {
+    bt_base,
+    base .. '/include',
+    base .. '/src/vendor/bullet/Demos/OpenGL',
+  },
+
 
   -- Execute all lua_open in a single go
   -- with luaopen_bt_vendor (creates bt_vendor.cpp).
