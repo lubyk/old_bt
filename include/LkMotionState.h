@@ -26,8 +26,8 @@
 
   ==============================================================================
 */
-#ifndef LUBYK_INCLUDE_MIMAS_ACTION_H_
-#define LUBYK_INCLUDE_MIMAS_ACTION_H_
+#ifndef LUBYK_INCLUDE_BT_LK_MOTION_STATE_H_
+#define LUBYK_INCLUDE_BT_LK_MOTION_STATE_H_
 
 #include "dub/dub.h"
 #include "LinearMath/btMotionState.h"
@@ -54,13 +54,13 @@ public:
   virtual void setWorldTransform(const btTransform& worldTrans) {
     if (!dub_pushcallback("setWorldTransform")) return;
     // Do not garbage collect
-    dub_pushudata(dub_L, const_cast<btTransform*>(&worldTrans), "bt.Transform", false);
+    dub_pushudata(dub_L, &worldTrans, "bt.Transform", false);
     // <func> <self> <worldTrans>
     dub_call(2, 0);
   }
 };
 
-#endif // LUBYK_INCLUDE_MIMAS_ACTION_H_
+#endif // LUBYK_INCLUDE_BT_LK_MOTION_STATE_H_
 
 
 

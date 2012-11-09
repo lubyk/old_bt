@@ -8,6 +8,7 @@
  */
 #include "dub/dub.h"
 #include "LkMotionState.h"
+#include "LkDebugDrawer.h"
 #include "BulletCollision/BroadphaseCollision/btBroadphaseInterface.h"
 #include "BulletCollision/BroadphaseCollision/btDbvtBroadphase.h"
 #include "BulletCollision/BroadphaseCollision/btDispatcher.h"
@@ -40,6 +41,7 @@
 
 extern "C" {
 int luaopen_bt_LkMotionState(lua_State *L);
+int luaopen_bt_LkDebugDrawer(lua_State *L);
 int luaopen_bt_BroadphaseInterface(lua_State *L);
 int luaopen_bt_DbvtBroadphase(lua_State *L);
 int luaopen_bt_Dispatcher(lua_State *L);
@@ -1016,6 +1018,7 @@ static const struct dub_const_Reg bt_const[] = {
 
 extern "C" int luaopen_bt_core(lua_State *L) {
   luaopen_bt_LkMotionState(L);
+  luaopen_bt_LkDebugDrawer(L);
   luaopen_bt_BroadphaseInterface(L);
   luaopen_bt_DbvtBroadphase(L);
   luaopen_bt_Dispatcher(L);

@@ -13,8 +13,12 @@ require 'bt.core'
 bt.BaseMotionState = bt.MotionState
 bt.MotionState = bt.LkMotionState
 
+-- We use bt.DebugDrawer as alias for bt.LkDebugDrawer
+bt.DebugDrawer = bt.LkDebugDrawer
+
 -- FIXME: When an operator is defined in global namespace with Vector3 as
--- first argument, it should be inserted inside the class definition.
+-- first argument, it should be inserted inside the class definition during
+-- binding generation.
 bt.Transform.__eq  = bt.__eq
 bt.Vector3.__add = bt.__add
 bt.Vector3.__sub = bt.__sub

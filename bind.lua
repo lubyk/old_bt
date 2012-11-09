@@ -107,6 +107,7 @@ binder:bind(ins, {
   luaopen = 'bt_core',
   only = {
     'LkMotionState',
+    'LkDebugDrawer',
 
      -- BulletCollision/BroadphaseCollision:
     'btBroadphaseInterface',

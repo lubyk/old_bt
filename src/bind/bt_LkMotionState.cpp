@@ -45,40 +45,6 @@ static int LkMotionState_LkMotionState(lua_State *L) {
   return dub_error(L);
 }
 
-/** virtual void btMotionState::getWorldTransform(btTransform &worldTrans) const =0
- * src/vendor/bullet/src/LinearMath/btMotionState.h:32
- */
-static int LkMotionState_getWorldTransform(lua_State *L) {
-  try {
-    LkMotionState *self = *((LkMotionState **)dub_checksdata(L, 1, "bt.LkMotionState"));
-    btTransform *worldTrans = *((btTransform **)dub_checksdata(L, 2, "bt.Transform"));
-    self->getWorldTransform(*worldTrans);
-    return 0;
-  } catch (std::exception &e) {
-    lua_pushfstring(L, "getWorldTransform: %s", e.what());
-  } catch (...) {
-    lua_pushfstring(L, "getWorldTransform: Unknown exception");
-  }
-  return dub_error(L);
-}
-
-/** virtual void btMotionState::setWorldTransform(const btTransform &worldTrans)=0
- * src/vendor/bullet/src/LinearMath/btMotionState.h:35
- */
-static int LkMotionState_setWorldTransform(lua_State *L) {
-  try {
-    LkMotionState *self = *((LkMotionState **)dub_checksdata(L, 1, "bt.LkMotionState"));
-    btTransform *worldTrans = *((btTransform **)dub_checksdata(L, 2, "bt.Transform"));
-    self->setWorldTransform(*worldTrans);
-    return 0;
-  } catch (std::exception &e) {
-    lua_pushfstring(L, "setWorldTransform: %s", e.what());
-  } catch (...) {
-    lua_pushfstring(L, "setWorldTransform: Unknown exception");
-  }
-  return dub_error(L);
-}
-
 
 
 // --=============================================== __tostring
@@ -94,8 +60,6 @@ static int LkMotionState___tostring(lua_State *L) {
 static const struct luaL_Reg LkMotionState_member_methods[] = {
   { "_cast_"       , LkMotionState__cast_ },
   { "new"          , LkMotionState_LkMotionState },
-  { "getWorldTransform", LkMotionState_getWorldTransform },
-  { "setWorldTransform", LkMotionState_setWorldTransform },
   { "__tostring"   , LkMotionState___tostring },
   { "deleted"      , dub_isDeleted        },
   { NULL, NULL},

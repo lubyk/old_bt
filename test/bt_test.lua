@@ -18,7 +18,18 @@ end
 function should.work(t)
   local win = mimas.LegacyGLWindow()
 
-  local drawer = bt.GLDebugDrawer()
+  local drawer = bt.DebugDrawer()
+  function drawer:drawLine(from, to, fromColor, toColor)
+    toColor = toColor or fromColor
+    gl.Begin('LINES')
+      gl.Color(fromColor:getX(), fromColor:getY(), fromColor:getZ())
+      gl.Vertex3d(from:getX(), from:getY(), from:getZ())
+      gl.Color(toColor:getX(), toColor:getY(), toColor:getZ())
+      gl.Vertex3d(to:getX(), to:getY(), to:getZ())
+    gl.End()
+    end
+  end
+
   drawer:setDebugMode(bt.IDebugDraw.DBG_MAX_DEBUG_DRAW_MODE)
   lk.log(bt.IDebugDraw.DBG_MAX_DEBUG_DRAW_MODE)
 
