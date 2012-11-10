@@ -16,11 +16,15 @@
 #include "BulletCollision/CollisionDispatch/btCollisionConfiguration.h"
 #include "BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
 #include "BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h"
+#include "BulletCollision/CollisionDispatch/btCollisionObject.h"
 #include "BulletCollision/CollisionShapes/btCollisionShape.h"
 #include "BulletCollision/CollisionShapes/btConcaveShape.h"
 #include "BulletCollision/CollisionShapes/btConvexInternalShape.h"
 #include "BulletCollision/CollisionShapes/btConvexShape.h"
 #include "BulletCollision/CollisionShapes/btSphereShape.h"
+#include "BulletCollision/CollisionShapes/btBoxShape.h"
+#include "BulletCollision/CollisionShapes/btPolyhedralConvexShape.h"
+#include "BulletCollision/CollisionShapes/btCylinderShape.h"
 #include "BulletCollision/CollisionShapes/btStaticPlaneShape.h"
 #include "BulletDynamics/ConstraintSolver/btConstraintSolver.h"
 #include "BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
@@ -52,11 +56,15 @@ int luaopen_bt_CollisionWorld(lua_State *L);
 int luaopen_bt_CollisionConfiguration(lua_State *L);
 int luaopen_bt_CollisionDispatcher(lua_State *L);
 int luaopen_bt_DefaultCollisionConfiguration(lua_State *L);
+int luaopen_bt_CollisionObject(lua_State *L);
 int luaopen_bt_CollisionShape(lua_State *L);
 int luaopen_bt_ConcaveShape(lua_State *L);
 int luaopen_bt_ConvexInternalShape(lua_State *L);
 int luaopen_bt_ConvexShape(lua_State *L);
 int luaopen_bt_SphereShape(lua_State *L);
+int luaopen_bt_BoxShape(lua_State *L);
+int luaopen_bt_PolyhedralConvexShape(lua_State *L);
+int luaopen_bt_CylinderShape(lua_State *L);
 int luaopen_bt_StaticPlaneShape(lua_State *L);
 int luaopen_bt_ConstraintSolver(lua_State *L);
 int luaopen_bt_SequentialImpulseConstraintSolver(lua_State *L);
@@ -1032,11 +1040,15 @@ extern "C" int luaopen_bt_core(lua_State *L) {
   luaopen_bt_CollisionConfiguration(L);
   luaopen_bt_CollisionDispatcher(L);
   luaopen_bt_DefaultCollisionConfiguration(L);
+  luaopen_bt_CollisionObject(L);
   luaopen_bt_CollisionShape(L);
   luaopen_bt_ConcaveShape(L);
   luaopen_bt_ConvexInternalShape(L);
   luaopen_bt_ConvexShape(L);
   luaopen_bt_SphereShape(L);
+  luaopen_bt_BoxShape(L);
+  luaopen_bt_PolyhedralConvexShape(L);
+  luaopen_bt_CylinderShape(L);
   luaopen_bt_StaticPlaneShape(L);
   luaopen_bt_ConstraintSolver(L);
   luaopen_bt_SequentialImpulseConstraintSolver(L);

@@ -27,6 +27,7 @@ local ins = dub.Inspector {
     bt_base .. '/BulletCollision/CollisionDispatch/btCollisionConfiguration.h',
     bt_base .. '/BulletCollision/CollisionDispatch/btCollisionDispatcher.h',
     bt_base .. '/BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h',
+    bt_base .. '/BulletCollision/CollisionDispatch/btCollisionObject.h',
     bt_base .. '/BulletCollision/CollisionDispatch/btCollisionWorld.h',
 
     bt_base .. '/BulletCollision/CollisionShapes/btCollisionShape.h',
@@ -34,6 +35,9 @@ local ins = dub.Inspector {
     bt_base .. '/BulletCollision/CollisionShapes/btConcaveShape.h',
     bt_base .. '/BulletCollision/CollisionShapes/btConvexShape.h',
     bt_base .. '/BulletCollision/CollisionShapes/btSphereShape.h',
+    bt_base .. '/BulletCollision/CollisionShapes/btPolyhedralConvexShape.h',
+    bt_base .. '/BulletCollision/CollisionShapes/btBoxShape.h',
+    bt_base .. '/BulletCollision/CollisionShapes/btCylinderShape.h',
     bt_base .. '/BulletCollision/CollisionShapes/btStaticPlaneShape.h',
 
     bt_base .. '/BulletDynamics/ConstraintSolver/btConstraintSolver.h',
@@ -137,6 +141,7 @@ binder:bind(ins, {
     'btCollisionConfiguration',
     'btCollisionDispatcher',
     'btDefaultCollisionConfiguration',
+    'btCollisionObject',
 
     -- BulletCollision/CollisionShapes:
     'btCollisionShape',
@@ -144,6 +149,9 @@ binder:bind(ins, {
     'btConvexInternalShape',
     'btConvexShape',
     'btSphereShape',
+    'btBoxShape',
+    'btPolyhedralConvexShape',
+    'btCylinderShape',
     'btStaticPlaneShape',
 
     -- BulletDynamics/ConstraintSolver:

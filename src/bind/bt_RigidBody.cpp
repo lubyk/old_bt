@@ -73,6 +73,25 @@ static int btRigidBody__get_(lua_State *L) {
   return 0;
 }
 
+/** Cast (class_name)
+ * 
+ */
+static int btRigidBody__cast_(lua_State *L) {
+
+  btRigidBody *self = *((btRigidBody **)dub_checksdata_n(L, 1, "bt.RigidBody"));
+  const char *key = luaL_checkstring(L, 2);
+  void **retval__ = (void**)lua_newuserdata(L, sizeof(void*));
+  int key_h = dub_hash(key, 2);
+  switch(key_h) {
+    case 1: {
+      if (DUB_ASSERT_KEY(key, "bt.CollisionObject")) break;
+      *retval__ = static_cast<btCollisionObject *>(self);
+      return 1;
+    }
+  }
+  return 0;
+}
+
 /** btRigidBody::btRigidBody(const btRigidBodyConstructionInfo &constructionInfo)
  * src/vendor/bullet/src/BulletDynamics/Dynamics/btRigidBody.h:172
  */
@@ -1048,7 +1067,7 @@ static int btRigidBody_isInWorld(lua_State *L) {
 static int btRigidBody_checkCollideWithOverride(lua_State *L) {
   try {
     btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
-    btCollisionObject *co = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+    btCollisionObject *co = *((btCollisionObject **)dub_checksdata(L, 2, "bt.CollisionObject"));
     lua_pushboolean(L, self->checkCollideWithOverride(co));
     return 1;
   } catch (std::exception &e) {
@@ -1234,7 +1253,7 @@ static int btRigidBody_serializeSingleObject(lua_State *L) {
  */
 static int btRigidBody_upcast(lua_State *L) {
   try {
-    btCollisionObject *colObj = *((btCollisionObject **)dub_checksdata(L, 1, "CollisionObject"));
+    btCollisionObject *colObj = *((btCollisionObject **)dub_checksdata(L, 1, "bt.CollisionObject"));
     const btRigidBody *retval__ = btRigidBody::upcast(colObj);
     if (!retval__) return 0;
     dub_pushudata(L, const_cast<btRigidBody*>(retval__), "bt.RigidBody", false);
@@ -1243,6 +1262,901 @@ static int btRigidBody_upcast(lua_State *L) {
     lua_pushfstring(L, "upcast: %s", e.what());
   } catch (...) {
     lua_pushfstring(L, "upcast: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** bool btCollisionObject::mergesSimulationIslands() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:149
+ */
+static int btRigidBody_mergesSimulationIslands(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushboolean(L, self->mergesSimulationIslands());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "mergesSimulationIslands: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "mergesSimulationIslands: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** const btVector3& btCollisionObject::getAnisotropicFriction() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:155
+ */
+static int btRigidBody_getAnisotropicFriction(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    dub_pushudata(L, const_cast<btVector3*>(&self->getAnisotropicFriction()), "bt.Vector3", false);
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getAnisotropicFriction: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getAnisotropicFriction: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setAnisotropicFriction(const btVector3 &anisotropicFriction, int frictionMode=CF_ANISOTROPIC_FRICTION)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:159
+ */
+static int btRigidBody_setAnisotropicFriction(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    int top__ = lua_gettop(L);
+    if (top__ >= 3) {
+      btVector3 *anisotropicFriction = *((btVector3 **)dub_checksdata(L, 2, "bt.Vector3"));
+      int frictionMode = dub_checkint(L, 3);
+      self->setAnisotropicFriction(*anisotropicFriction, frictionMode);
+      return 0;
+    } else {
+      btVector3 *anisotropicFriction = *((btVector3 **)dub_checksdata(L, 2, "bt.Vector3"));
+      self->setAnisotropicFriction(*anisotropicFriction);
+      return 0;
+    }
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setAnisotropicFriction: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setAnisotropicFriction: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** bool btCollisionObject::hasAnisotropicFriction(int frictionMode=CF_ANISOTROPIC_FRICTION) const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:165
+ */
+static int btRigidBody_hasAnisotropicFriction(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    int top__ = lua_gettop(L);
+    if (top__ >= 2) {
+      int frictionMode = dub_checkint(L, 2);
+      lua_pushboolean(L, self->hasAnisotropicFriction(frictionMode));
+      return 1;
+    } else {
+      lua_pushboolean(L, self->hasAnisotropicFriction());
+      return 1;
+    }
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "hasAnisotropicFriction: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "hasAnisotropicFriction: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setContactProcessingThreshold(btScalar contactProcessingThreshold)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:172
+ */
+static int btRigidBody_setContactProcessingThreshold(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btScalar contactProcessingThreshold = dub_checknumber(L, 2);
+    self->setContactProcessingThreshold(contactProcessingThreshold);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setContactProcessingThreshold: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setContactProcessingThreshold: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btScalar btCollisionObject::getContactProcessingThreshold() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:176
+ */
+static int btRigidBody_getContactProcessingThreshold(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushnumber(L, self->getContactProcessingThreshold());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getContactProcessingThreshold: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getContactProcessingThreshold: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** bool btCollisionObject::isStaticObject() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:180
+ */
+static int btRigidBody_isStaticObject(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushboolean(L, self->isStaticObject());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "isStaticObject: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "isStaticObject: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** bool btCollisionObject::isKinematicObject() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:185
+ */
+static int btRigidBody_isKinematicObject(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushboolean(L, self->isKinematicObject());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "isKinematicObject: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "isKinematicObject: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** bool btCollisionObject::isStaticOrKinematicObject() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:190
+ */
+static int btRigidBody_isStaticOrKinematicObject(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushboolean(L, self->isStaticOrKinematicObject());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "isStaticOrKinematicObject: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "isStaticOrKinematicObject: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** bool btCollisionObject::hasContactResponse() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:194
+ */
+static int btRigidBody_hasContactResponse(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushboolean(L, self->hasContactResponse());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "hasContactResponse: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "hasContactResponse: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** virtual void btCollisionObject::setCollisionShape(btCollisionShape *collisionShape)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:204
+ */
+static int btRigidBody_setCollisionShape(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btCollisionShape *collisionShape = *((btCollisionShape **)dub_checksdata(L, 2, "bt.CollisionShape"));
+    self->setCollisionShape(collisionShape);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setCollisionShape: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setCollisionShape: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void* btCollisionObject::internalGetExtensionPointer() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:226
+ */
+static int btRigidBody_internalGetExtensionPointer(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    self->internalGetExtensionPointer();
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "internalGetExtensionPointer: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "internalGetExtensionPointer: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::internalSetExtensionPointer(void *pointer)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:232
+ */
+static int btRigidBody_internalSetExtensionPointer(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    void *pointer = *((void **)dub_checksdata(L, 2, "void"));
+    self->internalSetExtensionPointer(pointer);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "internalSetExtensionPointer: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "internalSetExtensionPointer: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** int btCollisionObject::getActivationState() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:236
+ */
+static int btRigidBody_getActivationState(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushnumber(L, self->getActivationState());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getActivationState: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getActivationState: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setActivationState(int newState) const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:238
+ */
+static int btRigidBody_setActivationState(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    int newState = dub_checkint(L, 2);
+    self->setActivationState(newState);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setActivationState: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setActivationState: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setDeactivationTime(btScalar time)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:241
+ */
+static int btRigidBody_setDeactivationTime(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btScalar time = dub_checknumber(L, 2);
+    self->setDeactivationTime(time);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setDeactivationTime: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setDeactivationTime: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btScalar btCollisionObject::getDeactivationTime() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:245
+ */
+static int btRigidBody_getDeactivationTime(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushnumber(L, self->getDeactivationTime());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getDeactivationTime: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getDeactivationTime: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::forceActivationState(int newState) const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:249
+ */
+static int btRigidBody_forceActivationState(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    int newState = dub_checkint(L, 2);
+    self->forceActivationState(newState);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "forceActivationState: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "forceActivationState: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::activate(bool forceActivation=false) const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:251
+ */
+static int btRigidBody_activate(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    int top__ = lua_gettop(L);
+    if (top__ >= 2) {
+      bool forceActivation = dub_checkboolean(L, 2);
+      self->activate(forceActivation);
+      return 0;
+    } else {
+      self->activate();
+      return 0;
+    }
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "activate: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "activate: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** bool btCollisionObject::isActive() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:254
+ */
+static int btRigidBody_isActive(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushboolean(L, self->isActive());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "isActive: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "isActive: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setRestitution(btScalar rest)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:259
+ */
+static int btRigidBody_setRestitution(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btScalar rest = dub_checknumber(L, 2);
+    self->setRestitution(rest);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setRestitution: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setRestitution: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btScalar btCollisionObject::getRestitution() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:263
+ */
+static int btRigidBody_getRestitution(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushnumber(L, self->getRestitution());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getRestitution: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getRestitution: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setFriction(btScalar frict)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:267
+ */
+static int btRigidBody_setFriction(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btScalar frict = dub_checknumber(L, 2);
+    self->setFriction(frict);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setFriction: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setFriction: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btScalar btCollisionObject::getFriction() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:271
+ */
+static int btRigidBody_getFriction(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushnumber(L, self->getFriction());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getFriction: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getFriction: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setRollingFriction(btScalar frict)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:276
+ */
+static int btRigidBody_setRollingFriction(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btScalar frict = dub_checknumber(L, 2);
+    self->setRollingFriction(frict);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setRollingFriction: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setRollingFriction: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btScalar btCollisionObject::getRollingFriction() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:280
+ */
+static int btRigidBody_getRollingFriction(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushnumber(L, self->getRollingFriction());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getRollingFriction: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getRollingFriction: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** int btCollisionObject::getInternalType() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:287
+ */
+static int btRigidBody_getInternalType(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushnumber(L, self->getInternalType());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getInternalType: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getInternalType: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btTransform& btCollisionObject::getWorldTransform()
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:292
+ */
+static int btRigidBody_getWorldTransform(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    dub_pushudata(L, &self->getWorldTransform(), "bt.Transform", false);
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getWorldTransform: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getWorldTransform: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setWorldTransform(const btTransform &worldTrans)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:302
+ */
+static int btRigidBody_setWorldTransform(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btTransform *worldTrans = *((btTransform **)dub_checksdata(L, 2, "bt.Transform"));
+    self->setWorldTransform(*worldTrans);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setWorldTransform: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setWorldTransform: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btBroadphaseProxy* btCollisionObject::getBroadphaseHandle()
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:308
+ */
+static int btRigidBody_getBroadphaseHandle(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btBroadphaseProxy *retval__ = self->getBroadphaseHandle();
+    if (!retval__) return 0;
+    dub_pushudata(L, retval__, "BroadphaseProxy", false);
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getBroadphaseHandle: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getBroadphaseHandle: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setBroadphaseHandle(btBroadphaseProxy *handle)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:318
+ */
+static int btRigidBody_setBroadphaseHandle(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btBroadphaseProxy *handle = *((btBroadphaseProxy **)dub_checksdata(L, 2, "BroadphaseProxy"));
+    self->setBroadphaseHandle(handle);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setBroadphaseHandle: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setBroadphaseHandle: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** const btTransform& btCollisionObject::getInterpolationWorldTransform() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:324
+ */
+static int btRigidBody_getInterpolationWorldTransform(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    dub_pushudata(L, const_cast<btTransform*>(&self->getInterpolationWorldTransform()), "bt.Transform", false);
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getInterpolationWorldTransform: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getInterpolationWorldTransform: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setInterpolationWorldTransform(const btTransform &trans)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:334
+ */
+static int btRigidBody_setInterpolationWorldTransform(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btTransform *trans = *((btTransform **)dub_checksdata(L, 2, "bt.Transform"));
+    self->setInterpolationWorldTransform(*trans);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setInterpolationWorldTransform: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setInterpolationWorldTransform: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setInterpolationLinearVelocity(const btVector3 &linvel)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:339
+ */
+static int btRigidBody_setInterpolationLinearVelocity(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btVector3 *linvel = *((btVector3 **)dub_checksdata(L, 2, "bt.Vector3"));
+    self->setInterpolationLinearVelocity(*linvel);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setInterpolationLinearVelocity: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setInterpolationLinearVelocity: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setInterpolationAngularVelocity(const btVector3 &angvel)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:344
+ */
+static int btRigidBody_setInterpolationAngularVelocity(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btVector3 *angvel = *((btVector3 **)dub_checksdata(L, 2, "bt.Vector3"));
+    self->setInterpolationAngularVelocity(*angvel);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setInterpolationAngularVelocity: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setInterpolationAngularVelocity: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** const btVector3& btCollisionObject::getInterpolationLinearVelocity() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:349
+ */
+static int btRigidBody_getInterpolationLinearVelocity(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    dub_pushudata(L, const_cast<btVector3*>(&self->getInterpolationLinearVelocity()), "bt.Vector3", false);
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getInterpolationLinearVelocity: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getInterpolationLinearVelocity: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** const btVector3& btCollisionObject::getInterpolationAngularVelocity() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:354
+ */
+static int btRigidBody_getInterpolationAngularVelocity(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    dub_pushudata(L, const_cast<btVector3*>(&self->getInterpolationAngularVelocity()), "bt.Vector3", false);
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getInterpolationAngularVelocity: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getInterpolationAngularVelocity: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** int btCollisionObject::getIslandTag() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:359
+ */
+static int btRigidBody_getIslandTag(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushnumber(L, self->getIslandTag());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getIslandTag: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getIslandTag: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setIslandTag(int tag)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:364
+ */
+static int btRigidBody_setIslandTag(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    int tag = dub_checkint(L, 2);
+    self->setIslandTag(tag);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setIslandTag: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setIslandTag: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** int btCollisionObject::getCompanionId() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:369
+ */
+static int btRigidBody_getCompanionId(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushnumber(L, self->getCompanionId());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getCompanionId: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getCompanionId: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setCompanionId(int id)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:374
+ */
+static int btRigidBody_setCompanionId(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    int id = dub_checkint(L, 2);
+    self->setCompanionId(id);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setCompanionId: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setCompanionId: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btScalar btCollisionObject::getHitFraction() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:379
+ */
+static int btRigidBody_getHitFraction(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushnumber(L, self->getHitFraction());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getHitFraction: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getHitFraction: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setHitFraction(btScalar hitFraction)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:384
+ */
+static int btRigidBody_setHitFraction(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btScalar hitFraction = dub_checknumber(L, 2);
+    self->setHitFraction(hitFraction);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setHitFraction: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setHitFraction: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** int btCollisionObject::getCollisionFlags() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:390
+ */
+static int btRigidBody_getCollisionFlags(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushnumber(L, self->getCollisionFlags());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getCollisionFlags: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getCollisionFlags: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setCollisionFlags(int flags)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:395
+ */
+static int btRigidBody_setCollisionFlags(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    int flags = dub_checkint(L, 2);
+    self->setCollisionFlags(flags);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setCollisionFlags: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setCollisionFlags: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btScalar btCollisionObject::getCcdSweptSphereRadius() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:401
+ */
+static int btRigidBody_getCcdSweptSphereRadius(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushnumber(L, self->getCcdSweptSphereRadius());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getCcdSweptSphereRadius: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getCcdSweptSphereRadius: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setCcdSweptSphereRadius(btScalar radius)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:407
+ */
+static int btRigidBody_setCcdSweptSphereRadius(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btScalar radius = dub_checknumber(L, 2);
+    self->setCcdSweptSphereRadius(radius);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setCcdSweptSphereRadius: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setCcdSweptSphereRadius: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btScalar btCollisionObject::getCcdMotionThreshold() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:412
+ */
+static int btRigidBody_getCcdMotionThreshold(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushnumber(L, self->getCcdMotionThreshold());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getCcdMotionThreshold: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getCcdMotionThreshold: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** btScalar btCollisionObject::getCcdSquareMotionThreshold() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:417
+ */
+static int btRigidBody_getCcdSquareMotionThreshold(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    lua_pushnumber(L, self->getCcdSquareMotionThreshold());
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getCcdSquareMotionThreshold: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getCcdSquareMotionThreshold: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setCcdMotionThreshold(btScalar ccdMotionThreshold)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:425
+ */
+static int btRigidBody_setCcdMotionThreshold(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btScalar ccdMotionThreshold = dub_checknumber(L, 2);
+    self->setCcdMotionThreshold(ccdMotionThreshold);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setCcdMotionThreshold: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setCcdMotionThreshold: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void* btCollisionObject::getUserPointer() const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:431
+ */
+static int btRigidBody_getUserPointer(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    self->getUserPointer();
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "getUserPointer: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "getUserPointer: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btCollisionObject::setUserPointer(void *userPointer)
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:437
+ */
+static int btRigidBody_setUserPointer(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    void *userPointer = *((void **)dub_checksdata(L, 2, "void"));
+    self->setUserPointer(userPointer);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setUserPointer: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setUserPointer: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** bool btCollisionObject::checkCollideWith(const btCollisionObject *co) const
+ * src/vendor/bullet/src/BulletCollision/CollisionDispatch/btCollisionObject.h:443
+ */
+static int btRigidBody_checkCollideWith(lua_State *L) {
+  try {
+    btRigidBody *self = *((btRigidBody **)dub_checksdata(L, 1, "bt.RigidBody"));
+    btCollisionObject *co = *((btCollisionObject **)dub_checksdata(L, 2, "bt.CollisionObject"));
+    lua_pushboolean(L, self->checkCollideWith(co));
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "checkCollideWith: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "checkCollideWith: Unknown exception");
   }
   return dub_error(L);
 }
@@ -1262,6 +2176,7 @@ static int btRigidBody___tostring(lua_State *L) {
 static const struct luaL_Reg btRigidBody_member_methods[] = {
   { "__newindex"   , btRigidBody__set_    },
   { "__index"      , btRigidBody__get_    },
+  { "_cast_"       , btRigidBody__cast_   },
   { "new"          , btRigidBody_btRigidBody },
   { "__gc"         , btRigidBody__btRigidBody },
   { "proceedToTransform", btRigidBody_proceedToTransform },
@@ -1330,6 +2245,59 @@ static const struct luaL_Reg btRigidBody_member_methods[] = {
   { "serialize"    , btRigidBody_serialize },
   { "serializeSingleObject", btRigidBody_serializeSingleObject },
   { "upcast"       , btRigidBody_upcast   },
+  { "mergesSimulationIslands", btRigidBody_mergesSimulationIslands },
+  { "getAnisotropicFriction", btRigidBody_getAnisotropicFriction },
+  { "setAnisotropicFriction", btRigidBody_setAnisotropicFriction },
+  { "hasAnisotropicFriction", btRigidBody_hasAnisotropicFriction },
+  { "setContactProcessingThreshold", btRigidBody_setContactProcessingThreshold },
+  { "getContactProcessingThreshold", btRigidBody_getContactProcessingThreshold },
+  { "isStaticObject", btRigidBody_isStaticObject },
+  { "isKinematicObject", btRigidBody_isKinematicObject },
+  { "isStaticOrKinematicObject", btRigidBody_isStaticOrKinematicObject },
+  { "hasContactResponse", btRigidBody_hasContactResponse },
+  { "setCollisionShape", btRigidBody_setCollisionShape },
+  { "internalGetExtensionPointer", btRigidBody_internalGetExtensionPointer },
+  { "internalSetExtensionPointer", btRigidBody_internalSetExtensionPointer },
+  { "getActivationState", btRigidBody_getActivationState },
+  { "setActivationState", btRigidBody_setActivationState },
+  { "setDeactivationTime", btRigidBody_setDeactivationTime },
+  { "getDeactivationTime", btRigidBody_getDeactivationTime },
+  { "forceActivationState", btRigidBody_forceActivationState },
+  { "activate"     , btRigidBody_activate },
+  { "isActive"     , btRigidBody_isActive },
+  { "setRestitution", btRigidBody_setRestitution },
+  { "getRestitution", btRigidBody_getRestitution },
+  { "setFriction"  , btRigidBody_setFriction },
+  { "getFriction"  , btRigidBody_getFriction },
+  { "setRollingFriction", btRigidBody_setRollingFriction },
+  { "getRollingFriction", btRigidBody_getRollingFriction },
+  { "getInternalType", btRigidBody_getInternalType },
+  { "getWorldTransform", btRigidBody_getWorldTransform },
+  { "setWorldTransform", btRigidBody_setWorldTransform },
+  { "getBroadphaseHandle", btRigidBody_getBroadphaseHandle },
+  { "setBroadphaseHandle", btRigidBody_setBroadphaseHandle },
+  { "getInterpolationWorldTransform", btRigidBody_getInterpolationWorldTransform },
+  { "setInterpolationWorldTransform", btRigidBody_setInterpolationWorldTransform },
+  { "setInterpolationLinearVelocity", btRigidBody_setInterpolationLinearVelocity },
+  { "setInterpolationAngularVelocity", btRigidBody_setInterpolationAngularVelocity },
+  { "getInterpolationLinearVelocity", btRigidBody_getInterpolationLinearVelocity },
+  { "getInterpolationAngularVelocity", btRigidBody_getInterpolationAngularVelocity },
+  { "getIslandTag" , btRigidBody_getIslandTag },
+  { "setIslandTag" , btRigidBody_setIslandTag },
+  { "getCompanionId", btRigidBody_getCompanionId },
+  { "setCompanionId", btRigidBody_setCompanionId },
+  { "getHitFraction", btRigidBody_getHitFraction },
+  { "setHitFraction", btRigidBody_setHitFraction },
+  { "getCollisionFlags", btRigidBody_getCollisionFlags },
+  { "setCollisionFlags", btRigidBody_setCollisionFlags },
+  { "getCcdSweptSphereRadius", btRigidBody_getCcdSweptSphereRadius },
+  { "setCcdSweptSphereRadius", btRigidBody_setCcdSweptSphereRadius },
+  { "getCcdMotionThreshold", btRigidBody_getCcdMotionThreshold },
+  { "getCcdSquareMotionThreshold", btRigidBody_getCcdSquareMotionThreshold },
+  { "setCcdMotionThreshold", btRigidBody_setCcdMotionThreshold },
+  { "getUserPointer", btRigidBody_getUserPointer },
+  { "setUserPointer", btRigidBody_setUserPointer },
+  { "checkCollideWith", btRigidBody_checkCollideWith },
   { "__tostring"   , btRigidBody___tostring },
   { "deleted"      , dub_isDeleted        },
   { NULL, NULL},

@@ -28,3 +28,10 @@ bt.Vector3.__div = bt.__div
 function bt.Vector3:__tostring()
   return string.format('[%f, %f, %f]', self:x(),self:y(), self:z())
 end
+
+-- Some constants
+bt.ACTIVE_TAG = 1
+bt.ISLAND_SLEEPING=2
+bt.WANTS_DEACTIVATION=3
+bt.DISABLE_DEACTIVATION=4
+bt.DISABLE_SIMULATION=5

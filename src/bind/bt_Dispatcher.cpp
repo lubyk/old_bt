@@ -67,8 +67,8 @@ static int btDispatcher_findAlgorithm(lua_State *L) {
 static int btDispatcher_getNewManifold(lua_State *L) {
   try {
     btDispatcher *self = *((btDispatcher **)dub_checksdata(L, 1, "bt.Dispatcher"));
-    btCollisionObject *b0 = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
-    btCollisionObject *b1 = *((btCollisionObject **)dub_checksdata(L, 3, "CollisionObject"));
+    btCollisionObject *b0 = *((btCollisionObject **)dub_checksdata(L, 2, "bt.CollisionObject"));
+    btCollisionObject *b1 = *((btCollisionObject **)dub_checksdata(L, 3, "bt.CollisionObject"));
     btPersistentManifold *retval__ = self->getNewManifold(b0, b1);
     if (!retval__) return 0;
     dub_pushudata(L, retval__, "PersistentManifold", false);
@@ -121,8 +121,8 @@ static int btDispatcher_clearManifold(lua_State *L) {
 static int btDispatcher_needsCollision(lua_State *L) {
   try {
     btDispatcher *self = *((btDispatcher **)dub_checksdata(L, 1, "bt.Dispatcher"));
-    btCollisionObject *body0 = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
-    btCollisionObject *body1 = *((btCollisionObject **)dub_checksdata(L, 3, "CollisionObject"));
+    btCollisionObject *body0 = *((btCollisionObject **)dub_checksdata(L, 2, "bt.CollisionObject"));
+    btCollisionObject *body1 = *((btCollisionObject **)dub_checksdata(L, 3, "bt.CollisionObject"));
     lua_pushboolean(L, self->needsCollision(body0, body1));
     return 1;
   } catch (std::exception &e) {
@@ -139,8 +139,8 @@ static int btDispatcher_needsCollision(lua_State *L) {
 static int btDispatcher_needsResponse(lua_State *L) {
   try {
     btDispatcher *self = *((btDispatcher **)dub_checksdata(L, 1, "bt.Dispatcher"));
-    btCollisionObject *body0 = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
-    btCollisionObject *body1 = *((btCollisionObject **)dub_checksdata(L, 3, "CollisionObject"));
+    btCollisionObject *body0 = *((btCollisionObject **)dub_checksdata(L, 2, "bt.CollisionObject"));
+    btCollisionObject *body1 = *((btCollisionObject **)dub_checksdata(L, 3, "bt.CollisionObject"));
     lua_pushboolean(L, self->needsResponse(body0, body1));
     return 1;
   } catch (std::exception &e) {

@@ -5,7 +5,6 @@ local win = mimas.LegacyGLWindow()
 
 --=============================================== DEBUG DRAWING
 local drawer 
-local mouse = {x = -10, y = 10}
 
 if true then
   -- Use C++ OpenGL debug drawer (much faster !).
@@ -59,36 +58,36 @@ dynamicsWorld:addRigidBody(groundRigidBody)
 local snake = {}
 local SNAKE_SIZE = 8
 local MAX_BODIES = 15
-local BALL_MARGIN = 0.4 -- Margin + ball = 1.0
 local ELEM_SIZE = SNAKE_SIZE / MAX_BODIES
-local BALL_RADIUS = 0.8 * ELEM_SIZE * (1 - BALL_MARGIN)
+local BALL_MARGIN = 0.4 -- Margin + ball = 1.0
+local BALL_RADIUS = (ELEM_SIZE * (1 - BALL_MARGIN)) / 2
 
 local elem
-local ORIGIN_X = 0
-local ORIGIN_Y = 8
+local ORIGIN_X = -SNAKE_SIZE
+local ORIGIN_Y = 0
 local ORIGIN_Z = 0
 
 --=============================================== Compute inertia
 local MASS = 1
 local INERTIA = bt.Vector3(0,0,0)
-local ELEM_SHAPE = bt.SphereShape(BALL_RADIUS)
+local ELEM_SHAPE = bt.BoxShape(bt.Vector3(BALL_RADIUS, BALL_RADIUS, BALL_RADIUS))
 ELEM_SHAPE:calculateLocalInertia(MASS, INERTIA)
 
-local DIAG_SN = (SNAKE_SIZE / 2) / math.sqrt(2)
-local x = ORIGIN_X - DIAG_SN
-local y = ORIGIN_Y - DIAG_SN
+local x = ORIGIN_X - (SNAKE_SIZE / 2)
+local y = BALL_RADIUS
+local z = ORIGIN_Z
 
-local DIAG_STEP = 1.3 * ELEM_SIZE / math.sqrt(2)
 -- snake: BALL ----- + ----- BALL -- + -- BALL
 --         forw ---->|<---- back
-local back = bt.Vector3(-DIAG_STEP/2, -DIAG_STEP/2, 0)
-local forw = bt.Vector3(DIAG_STEP/2, DIAG_STEP/2, 0)
+local back = bt.Vector3(-ELEM_SIZE/2, 0, 0)
+local forw = bt.Vector3(ELEM_SIZE/2, 0, 0)
 local NoRotation = bt.Quaternion(0,0,0,1)
+local UP_AXIS = bt.Vector3(0, 1, 0)
 
 for i=1,MAX_BODIES do
   local prev = elem
   elem = {shape = ELEM_SHAPE}
-  elem.motion = bt.DefaultMotionState(bt.Transform(NoRotation, bt.Vector3(x, y, 2 * math.random())))
+  elem.motion = bt.DefaultMotionState(bt.Transform(NoRotation, bt.Vector3(x, y, z)))
 
   local ci = bt.RigidBody.RigidBodyConstructionInfo(
     MASS,
@@ -98,20 +97,31 @@ for i=1,MAX_BODIES do
   )
   elem.ci = ci
   ci.m_restitution = 0.5
-  ci.m_linearDamping = 0.2
+  ci.m_linearDamping = 0 --.2
 
-  elem.body = bt.RigidBody(elem.ci)
-  dynamicsWorld:addRigidBody(elem.body)
+  local body = bt.RigidBody(elem.ci)
+  body:setActivationState(bt.DISABLE_DEACTIVATION)
+  body:setAnisotropicFriction(bt.Vector3(0.05, 0, 2))
+  body:setFriction(0.5)
+
+  elem.body = body
+  dynamicsWorld:addRigidBody(body)
   table.insert(snake, elem)
 
   if prev then
     -- Create constraint
-    elem.constraint = bt.Point2PointConstraint(prev.body, elem.body, forw, back)
+    elem.constraint = bt.HingeConstraint(
+      prev.body,
+      elem.body,
+      forw,
+      back,
+      UP_AXIS,
+      UP_AXIS
+    )
     dynamicsWorld:addConstraint(elem.constraint)
   end
 
-  x = x + DIAG_STEP
-  y = y + DIAG_STEP
+  x = x + ELEM_SIZE
 end
 
 --=============================================== OpenGL Window setup
@@ -123,6 +133,7 @@ end
 --  end
 --end
 
+local mouse = {x = 383, y = 422, z = 10}
 function win:mouse(x, y)
   mouse.x = x
   mouse.y = y
@@ -134,9 +145,10 @@ function win:paintGL()
   gl.LoadIdentity()
   
   
-  gl.Translate(0.0, 0.0, -20.0)
+  gl.Translate(0.0, 0.0, -30.0)
   gl.Rotate(mouse.x, 0.0, 1.0, 0.0)
   gl.Rotate(mouse.y, 1.0, 0.0, 0.0)
+  gl.Rotate(mouse.z, 0.0, 0.0, 1.0)
   
 
   gl.Color(0.5,0.5,0.0,0.5)
@@ -150,10 +162,34 @@ win:move(800, 10)
 win:resize(900,900)
 win:show()
 
+local PHASE_PER_ELEM = 2 * math.pi / MAX_BODIES
+local ANGULAR_SPEED  = 2 * math.pi / 4
+--=============================================== Motor oscillations
+function updateMotors(snake, t)
+  -- use low velocities during startup
+  local damp = (1 - math.exp(-t/8))
+  local phi = t * ANGULAR_SPEED
+  for i, elem in ipairs(snake) do
+    local constraint = elem.constraint
+    local pos_damp = (MAX_BODIES-i)/(MAX_BODIES-1)
+    pos_damp = 1 - (pos_damp * pos_damp * pos_damp)
+    if constraint then
+      -- sin oscillation
+      constraint:enableAngularMotor(
+        true,
+        1 * math.cos(phi + i * PHASE_PER_ELEM) * damp * pos_damp,
+        5
+      )
+    end
+  end
+end
 --=============================================== Simulation
 local step = 1/60
+local t = 0
 timer = lk.Timer(step * 1000, function()
-  dynamicsWorld:stepSimulation(step / 2,10)
+  t = t + step
+  updateMotors(snake, t)
+  dynamicsWorld:stepSimulation(step, 10)
   win:update()
 end)
 timer:start()

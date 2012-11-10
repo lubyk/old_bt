@@ -126,7 +126,7 @@ static int btCollisionWorld_getDispatcher(lua_State *L) {
 static int btCollisionWorld_updateSingleAabb(lua_State *L) {
   try {
     btCollisionWorld *self = *((btCollisionWorld **)dub_checksdata(L, 1, "bt.CollisionWorld"));
-    btCollisionObject *colObj = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+    btCollisionObject *colObj = *((btCollisionObject **)dub_checksdata(L, 2, "bt.CollisionObject"));
     self->updateSingleAabb(colObj);
     return 0;
   } catch (std::exception &e) {
@@ -311,7 +311,7 @@ static int btCollisionWorld_convexSweepTest(lua_State *L) {
 static int btCollisionWorld_contactTest(lua_State *L) {
   try {
     btCollisionWorld *self = *((btCollisionWorld **)dub_checksdata(L, 1, "bt.CollisionWorld"));
-    btCollisionObject *colObj = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+    btCollisionObject *colObj = *((btCollisionObject **)dub_checksdata(L, 2, "bt.CollisionObject"));
     btCollisionWorld::ContactResultCallback *resultCallback = *((btCollisionWorld::ContactResultCallback **)dub_checksdata(L, 3, "bt.CollisionWorld.ContactResultCallback"));
     self->contactTest(colObj, *resultCallback);
     return 0;
@@ -329,8 +329,8 @@ static int btCollisionWorld_contactTest(lua_State *L) {
 static int btCollisionWorld_contactPairTest(lua_State *L) {
   try {
     btCollisionWorld *self = *((btCollisionWorld **)dub_checksdata(L, 1, "bt.CollisionWorld"));
-    btCollisionObject *colObjA = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
-    btCollisionObject *colObjB = *((btCollisionObject **)dub_checksdata(L, 3, "CollisionObject"));
+    btCollisionObject *colObjA = *((btCollisionObject **)dub_checksdata(L, 2, "bt.CollisionObject"));
+    btCollisionObject *colObjB = *((btCollisionObject **)dub_checksdata(L, 3, "bt.CollisionObject"));
     btCollisionWorld::ContactResultCallback *resultCallback = *((btCollisionWorld::ContactResultCallback **)dub_checksdata(L, 4, "bt.CollisionWorld.ContactResultCallback"));
     self->contactPairTest(colObjA, colObjB, *resultCallback);
     return 0;
@@ -350,18 +350,18 @@ static int btCollisionWorld_addCollisionObject(lua_State *L) {
     btCollisionWorld *self = *((btCollisionWorld **)dub_checksdata(L, 1, "bt.CollisionWorld"));
     int top__ = lua_gettop(L);
     if (top__ >= 4) {
-      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "bt.CollisionObject"));
       short int *collisionFilterGroup = *((short int **)dub_checksdata(L, 3, "short int"));
       short int *collisionFilterMask = *((short int **)dub_checksdata(L, 4, "short int"));
       self->addCollisionObject(collisionObject, *collisionFilterGroup, *collisionFilterMask);
       return 0;
     } else if (top__ >= 3) {
-      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "bt.CollisionObject"));
       short int *collisionFilterGroup = *((short int **)dub_checksdata(L, 3, "short int"));
       self->addCollisionObject(collisionObject, *collisionFilterGroup);
       return 0;
     } else {
-      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+      btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "bt.CollisionObject"));
       self->addCollisionObject(collisionObject);
       return 0;
     }
@@ -395,7 +395,7 @@ static int btCollisionWorld_getCollisionObjectArray(lua_State *L) {
 static int btCollisionWorld_removeCollisionObject(lua_State *L) {
   try {
     btCollisionWorld *self = *((btCollisionWorld **)dub_checksdata(L, 1, "bt.CollisionWorld"));
-    btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "CollisionObject"));
+    btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 2, "bt.CollisionObject"));
     self->removeCollisionObject(collisionObject);
     return 0;
   } catch (std::exception &e) {
@@ -495,7 +495,7 @@ static int btCollisionWorld_rayTestSingle(lua_State *L) {
   try {
     btTransform *rayFromTrans = *((btTransform **)dub_checksdata(L, 1, "bt.Transform"));
     btTransform *rayToTrans = *((btTransform **)dub_checksdata(L, 2, "bt.Transform"));
-    btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 3, "CollisionObject"));
+    btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 3, "bt.CollisionObject"));
     btCollisionShape *collisionShape = *((btCollisionShape **)dub_checksdata(L, 4, "bt.CollisionShape"));
     btTransform *colObjWorldTransform = *((btTransform **)dub_checksdata(L, 5, "bt.Transform"));
     btCollisionWorld::RayResultCallback *resultCallback = *((btCollisionWorld::RayResultCallback **)dub_checksdata(L, 6, "bt.CollisionWorld.RayResultCallback"));
@@ -536,7 +536,7 @@ static int btCollisionWorld_objectQuerySingle(lua_State *L) {
     btConvexShape *castShape = *((btConvexShape **)dub_checksdata(L, 1, "bt.ConvexShape"));
     btTransform *rayFromTrans = *((btTransform **)dub_checksdata(L, 2, "bt.Transform"));
     btTransform *rayToTrans = *((btTransform **)dub_checksdata(L, 3, "bt.Transform"));
-    btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 4, "CollisionObject"));
+    btCollisionObject *collisionObject = *((btCollisionObject **)dub_checksdata(L, 4, "bt.CollisionObject"));
     btCollisionShape *collisionShape = *((btCollisionShape **)dub_checksdata(L, 5, "bt.CollisionShape"));
     btTransform *colObjWorldTransform = *((btTransform **)dub_checksdata(L, 6, "bt.Transform"));
     btCollisionWorld::ConvexResultCallback *resultCallback = *((btCollisionWorld::ConvexResultCallback **)dub_checksdata(L, 7, "bt.CollisionWorld.ConvexResultCallback"));
