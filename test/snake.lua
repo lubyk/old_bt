@@ -9,7 +9,22 @@ local drawer
 if true then
   -- Use C++ OpenGL debug drawer (much faster !).
   drawer = bt.GLDebugDrawer()
-  drawer:setDebugMode(bt.IDebugDraw.DBG_MAX_DEBUG_DRAW_MODE)
+  drawer:setDebugMode(
+		bt.IDebugDraw.DBG_DrawWireframe +
+		--bt.IDebugDraw.DBG_DrawAabb +
+		--bt.IDebugDraw.DBG_DrawFeaturesText +
+		--bt.IDebugDraw.DBG_DrawContactPoints +
+		--bt.IDebugDraw.DBG_NoDeactivation +
+		--bt.IDebugDraw.DBG_NoHelpText +
+		--bt.IDebugDraw.DBG_DrawText +
+		--bt.IDebugDraw.DBG_ProfileTimings +
+		--bt.IDebugDraw.DBG_EnableSatComparison +
+		--bt.IDebugDraw.DBG_DisableBulletLCP +
+		--bt.IDebugDraw.DBG_EnableCCD +
+		bt.IDebugDraw.DBG_DrawConstraints +
+		bt.IDebugDraw.DBG_DrawConstraintLimits +
+    0
+  )
 else
   -- Define our own Lua based debug drawer.
   drawer = bt.DebugDrawer()
@@ -102,7 +117,7 @@ for i=1,MAX_BODIES do
   local body = bt.RigidBody(elem.ci)
   body:setActivationState(bt.DISABLE_DEACTIVATION)
   body:setAnisotropicFriction(bt.Vector3(0.05, 0, 2))
-  body:setFriction(0.5)
+  body:setFriction(0.2)
 
   elem.body = body
   dynamicsWorld:addRigidBody(body)
@@ -135,6 +150,7 @@ end
 
 local mouse = {x = 383, y = 422, z = 10}
 function win:mouse(x, y)
+  print(x,y)
   mouse.x = x
   mouse.y = y
 end

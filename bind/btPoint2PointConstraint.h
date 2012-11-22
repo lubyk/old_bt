@@ -1,4 +1,4 @@
-/** Very simple binding for constraints.
+/** Very simple binding for point 2 point constraints.
  */
 class btPoint2PointConstraint : public btTypedConstraint {
 public:
