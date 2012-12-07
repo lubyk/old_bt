@@ -11,9 +11,9 @@ set(MODULE_NAME bt)
 # --------------------------------------------------------------
 #  common lubyk build settings
 # --------------------------------------------------------------
-if(NOT LUBYK)
+if(NOT LUBYK_LIB)
   include(CMakeLubyk.txt)
-endif(NOT LUBYK)   
+endif(NOT LUBYK_LIB)   
 
 # --------------------------------------------------------------
 #  bt
