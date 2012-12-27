@@ -23,9 +23,9 @@ static int btHingeConstraint__btHingeConstraint(lua_State *L) {
     userdata->gc = false;
     return 0;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "~btHingeConstraint: %s", e.what());
+    lua_pushfstring(L, "__gc: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "~btHingeConstraint: Unknown exception");
+    lua_pushfstring(L, "__gc: Unknown exception");
   }
   return dub_error(L);
 }
@@ -129,15 +129,57 @@ static int btHingeConstraint_btHingeConstraint(lua_State *L) {
       return 1;
     }
   } catch (std::exception &e) {
-    lua_pushfstring(L, "btHingeConstraint: %s", e.what());
+    lua_pushfstring(L, "new: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "btHingeConstraint: Unknown exception");
+    lua_pushfstring(L, "new: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btHingeConstraint::setLimit(btScalar low, btScalar high, btScalar _softness=0.9f, btScalar _biasFactor=0.3f, btScalar _relaxationFactor=1.0f)
+ * bind/btHingeConstraint.h:32
+ */
+static int btHingeConstraint_setLimit(lua_State *L) {
+  try {
+    btHingeConstraint *self = *((btHingeConstraint **)dub_checksdata(L, 1, "bt.HingeConstraint"));
+    int top__ = lua_gettop(L);
+    if (top__ >= 6) {
+      btScalar low = dub_checknumber(L, 2);
+      btScalar high = dub_checknumber(L, 3);
+      btScalar _softness = dub_checknumber(L, 4);
+      btScalar _biasFactor = dub_checknumber(L, 5);
+      btScalar _relaxationFactor = dub_checknumber(L, 6);
+      self->setLimit(low, high, _softness, _biasFactor, _relaxationFactor);
+      return 0;
+    } else if (top__ >= 5) {
+      btScalar low = dub_checknumber(L, 2);
+      btScalar high = dub_checknumber(L, 3);
+      btScalar _softness = dub_checknumber(L, 4);
+      btScalar _biasFactor = dub_checknumber(L, 5);
+      self->setLimit(low, high, _softness, _biasFactor);
+      return 0;
+    } else if (top__ >= 4) {
+      btScalar low = dub_checknumber(L, 2);
+      btScalar high = dub_checknumber(L, 3);
+      btScalar _softness = dub_checknumber(L, 4);
+      self->setLimit(low, high, _softness);
+      return 0;
+    } else {
+      btScalar low = dub_checknumber(L, 2);
+      btScalar high = dub_checknumber(L, 3);
+      self->setLimit(low, high);
+      return 0;
+    }
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setLimit: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setLimit: Unknown exception");
   }
   return dub_error(L);
 }
 
 /** void btHingeConstraint::enableAngularMotor(bool enableMotor, btScalar targetVelocity, btScalar maxMotorImpulse)
- * bind/btHingeConstraint.h:28
+ * bind/btHingeConstraint.h:34
  */
 static int btHingeConstraint_enableAngularMotor(lua_State *L) {
   try {
@@ -171,6 +213,7 @@ static const struct luaL_Reg btHingeConstraint_member_methods[] = {
   { "__gc"         , btHingeConstraint__btHingeConstraint },
   { "_cast_"       , btHingeConstraint__cast_ },
   { "new"          , btHingeConstraint_btHingeConstraint },
+  { "setLimit"     , btHingeConstraint_setLimit },
   { "enableAngularMotor", btHingeConstraint_enableAngularMotor },
   { "__tostring"   , btHingeConstraint___tostring },
   { "deleted"      , dub_isDeleted        },

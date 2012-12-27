@@ -23,9 +23,9 @@ static int btQuadWord__btQuadWord(lua_State *L) {
     userdata->gc = false;
     return 0;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "~btQuadWord: %s", e.what());
+    lua_pushfstring(L, "__gc: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "~btQuadWord: Unknown exception");
+    lua_pushfstring(L, "__gc: Unknown exception");
   }
   return dub_error(L);
 }
@@ -220,9 +220,9 @@ static int btQuadWord_operator_eq(lua_State *L) {
     lua_pushboolean(L, self->operator==(*other));
     return 1;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "operator==: %s", e.what());
+    lua_pushfstring(L, "__eq: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "operator==: Unknown exception");
+    lua_pushfstring(L, "__eq: Unknown exception");
   }
   return dub_error(L);
 }
@@ -283,9 +283,9 @@ static int btQuadWord_btQuadWord(lua_State *L) {
       return 1;
     }
   } catch (std::exception &e) {
-    lua_pushfstring(L, "btQuadWord: %s", e.what());
+    lua_pushfstring(L, "new: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "btQuadWord: Unknown exception");
+    lua_pushfstring(L, "new: Unknown exception");
   }
   return dub_error(L);
 }

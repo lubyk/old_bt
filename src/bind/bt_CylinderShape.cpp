@@ -23,9 +23,9 @@ static int btCylinderShape__btCylinderShape(lua_State *L) {
     userdata->gc = false;
     return 0;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "~btCylinderShape: %s", e.what());
+    lua_pushfstring(L, "__gc: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "~btCylinderShape: Unknown exception");
+    lua_pushfstring(L, "__gc: Unknown exception");
   }
   return dub_error(L);
 }
@@ -101,9 +101,9 @@ static int btCylinderShape_btCylinderShape(lua_State *L) {
     dub_pushudata(L, retval__, "bt.CylinderShape", true);
     return 1;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "btCylinderShape: %s", e.what());
+    lua_pushfstring(L, "new: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "btCylinderShape: Unknown exception");
+    lua_pushfstring(L, "new: Unknown exception");
   }
   return dub_error(L);
 }

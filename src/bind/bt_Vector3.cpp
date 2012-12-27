@@ -23,9 +23,9 @@ static int btVector3__btVector3(lua_State *L) {
     userdata->gc = false;
     return 0;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "~btVector3: %s", e.what());
+    lua_pushfstring(L, "__gc: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "~btVector3: Unknown exception");
+    lua_pushfstring(L, "__gc: Unknown exception");
   }
   return dub_error(L);
 }
@@ -76,9 +76,9 @@ static int btVector3_btVector3(lua_State *L) {
       return 1;
     }
   } catch (std::exception &e) {
-    lua_pushfstring(L, "btVector3: %s", e.what());
+    lua_pushfstring(L, "new: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "btVector3: Unknown exception");
+    lua_pushfstring(L, "new: Unknown exception");
   }
   return dub_error(L);
 }
@@ -93,9 +93,9 @@ static int btVector3_operator_adde(lua_State *L) {
     dub_pushudata(L, &self->operator+=(*v), "bt.Vector3", false);
     return 1;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "operator+=: %s", e.what());
+    lua_pushfstring(L, "add: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "operator+=: Unknown exception");
+    lua_pushfstring(L, "add: Unknown exception");
   }
   return dub_error(L);
 }
@@ -110,9 +110,9 @@ static int btVector3_operator_sube(lua_State *L) {
     dub_pushudata(L, &self->operator-=(*v), "bt.Vector3", false);
     return 1;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "operator-=: %s", e.what());
+    lua_pushfstring(L, "sub: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "operator-=: Unknown exception");
+    lua_pushfstring(L, "sub: Unknown exception");
   }
   return dub_error(L);
 }
@@ -134,9 +134,9 @@ static int btVector3_operator_mule(lua_State *L) {
       return 1;
     }
   } catch (std::exception &e) {
-    lua_pushfstring(L, "operator*=: %s", e.what());
+    lua_pushfstring(L, "mul: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "operator*=: Unknown exception");
+    lua_pushfstring(L, "mul: Unknown exception");
   }
   return dub_error(L);
 }
@@ -151,9 +151,9 @@ static int btVector3_operator_dive(lua_State *L) {
     dub_pushudata(L, &self->operator/=(s), "bt.Vector3", false);
     return 1;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "operator/=: %s", e.what());
+    lua_pushfstring(L, "div: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "operator/=: Unknown exception");
+    lua_pushfstring(L, "div: Unknown exception");
   }
   return dub_error(L);
 }
@@ -666,9 +666,9 @@ static int btVector3_operator_eq(lua_State *L) {
     lua_pushboolean(L, self->operator==(*other));
     return 1;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "operator==: %s", e.what());
+    lua_pushfstring(L, "__eq: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "operator==: Unknown exception");
+    lua_pushfstring(L, "__eq: Unknown exception");
   }
   return dub_error(L);
 }

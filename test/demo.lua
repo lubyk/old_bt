@@ -4,55 +4,62 @@ math.randomseed(os.time())
 local MAX_BODIES = 700
 local win = mimas.LegacyGLWindow()
 
-local drawer 
+local drawer, dynamicsWorld
 local mouse = {x = -10, y = 10}
 
+
 if true then
-  -- Use C++ OpenGL debug drawer (much faster !).
-  drawer = bt.GLDebugDrawer()
-  drawer:setDebugMode(bt.IDebugDraw.DBG_MAX_DEBUG_DRAW_MODE)
+  -- Simple way to declare world and debug drawer
+  dynamicsWorld = bt.World()
+  drawer = dynamicsWorld:debugDrawer('LEGACY')
 else
-  -- Define our own Lua based debug drawer.
-  drawer = bt.DebugDrawer()
-  function drawer:drawLine(from, to, fromColor, toColor)
-    toColor = toColor or fromColor
-    gl.Begin('LINES')
-      gl.Color(fromColor:getX(), fromColor:getY(), fromColor:getZ())
-      gl.Vertex(from:getX(), from:getY(), from:getZ())
-      gl.Color(toColor:getX(), toColor:getY(), toColor:getZ())
-      gl.Vertex(to:getX(), to:getY(), to:getZ())
-    gl.End()
+  if true then
+    -- Use C++ OpenGL debug drawer (much faster !).
+    drawer = bt.GLDebugDrawer()
+    drawer:setDebugMode(bt.IDebugDraw.DBG_MAX_DEBUG_DRAW_MODE)
+  else
+    -- Define our own Lua based debug drawer.
+    drawer = bt.DebugDrawer()
+    function drawer:drawLine(from, to, fromColor, toColor)
+      toColor = toColor or fromColor
+      gl.Begin('LINES')
+        gl.Color(fromColor:getX(), fromColor:getY(), fromColor:getZ())
+        gl.Vertex(from:getX(), from:getY(), from:getZ())
+        gl.Color(toColor:getX(), toColor:getY(), toColor:getZ())
+        gl.Vertex(to:getX(), to:getY(), to:getZ())
+      gl.End()
+    end
   end
-end
 
-local broadphase = bt.DbvtBroadphase()
-local collisionConfiguration = bt.DefaultCollisionConfiguration()
-local dispatcher = bt.CollisionDispatcher(collisionConfiguration)
-local solver = bt.SequentialImpulseConstraintSolver()
-local dynamicsWorld = bt.DiscreteDynamicsWorld(dispatcher,broadphase,solver,collisionConfiguration)
+  local broadphase = bt.DbvtBroadphase()
+  local collisionConfiguration = bt.DefaultCollisionConfiguration()
+  local dispatcher = bt.CollisionDispatcher(collisionConfiguration)
+  local solver = bt.SequentialImpulseConstraintSolver()
+  local dynamicsWorld = bt.DiscreteDynamicsWorld(dispatcher,broadphase,solver,collisionConfiguration)
 
-dynamicsWorld:setGravity(bt.Vector3(0,-10,0))
-dynamicsWorld:setDebugDrawer(drawer)
+  dynamicsWorld:setGravity(bt.Vector3(0,-10,0))
+  dynamicsWorld:setDebugDrawer(drawer)
 
 
-local groundShape = bt.StaticPlaneShape(bt.Vector3(0,1,0),1)
-local groundMotionState = bt.DefaultMotionState(
-  bt.Transform(
-    bt.Quaternion(0,0,0,1),
-    bt.Vector3(0,-1,0)
+  local groundShape = bt.StaticPlaneShape(bt.Vector3(0,1,0),1)
+  local groundMotionState = bt.DefaultMotionState(
+    bt.Transform(
+      bt.Quaternion(0,0,0,1),
+      bt.Vector3(0,-1,0)
+    )
   )
-)
 
-local groundRigidBodyCI = bt.RigidBody.RigidBodyConstructionInfo(
-  0,
-  groundMotionState,
-  groundShape,
-  bt.Vector3(0,0,0)
-)
-groundRigidBodyCI.m_restitution = 1.0
+  local groundRigidBodyCI = bt.RigidBody.RigidBodyConstructionInfo(
+    0,
+    groundMotionState,
+    groundShape,
+    bt.Vector3(0,0,0)
+  )
+  groundRigidBodyCI.m_restitution = 1.0
 
-local groundRigidBody = bt.RigidBody(groundRigidBodyCI)
-dynamicsWorld:addRigidBody(groundRigidBody)
+  local groundRigidBody = bt.RigidBody(groundRigidBodyCI)
+  dynamicsWorld:addRigidBody(groundRigidBody)
+end
 
 local fallShape = bt.SphereShape(0.3)
 local fallMotionState = bt.MotionState()
@@ -121,7 +128,6 @@ function win:paintGL()
 
 
   dynamicsWorld:debugDrawWorld()
-  win:update()
 end
 win:move(800, 10)
 win:resize(900,900)
@@ -130,7 +136,9 @@ win:show()
 local step = 1/60
 timer = lk.Timer(step * 1000, function()
   dynamicsWorld:stepSimulation(step,10)
-  win:update()
+  if not win:deleted() then
+    win:update()
+  end
 end)
 timer:start()
 

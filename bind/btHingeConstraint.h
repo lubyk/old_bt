@@ -25,5 +25,11 @@ public:
       const btTransform& rbBFrame,
       bool useReferenceFrameA = false);
 
+  void setLimit(btScalar low,
+      btScalar high,
+      btScalar _softness = 0.9f,
+      btScalar _biasFactor = 0.3f,
+      btScalar _relaxationFactor = 1.0f);
+
   void enableAngularMotor(bool enableMotor,btScalar targetVelocity,btScalar maxMotorImpulse);
 };

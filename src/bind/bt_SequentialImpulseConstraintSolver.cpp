@@ -38,9 +38,9 @@ static int btSequentialImpulseConstraintSolver_btSequentialImpulseConstraintSolv
     dub_pushudata(L, retval__, "bt.SequentialImpulseConstraintSolver", true);
     return 1;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "btSequentialImpulseConstraintSolver: %s", e.what());
+    lua_pushfstring(L, "new: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "btSequentialImpulseConstraintSolver: Unknown exception");
+    lua_pushfstring(L, "new: Unknown exception");
   }
   return dub_error(L);
 }
@@ -58,9 +58,9 @@ static int btSequentialImpulseConstraintSolver__btSequentialImpulseConstraintSol
     userdata->gc = false;
     return 0;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "~btSequentialImpulseConstraintSolver: %s", e.what());
+    lua_pushfstring(L, "__gc: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "~btSequentialImpulseConstraintSolver: Unknown exception");
+    lua_pushfstring(L, "__gc: Unknown exception");
   }
   return dub_error(L);
 }

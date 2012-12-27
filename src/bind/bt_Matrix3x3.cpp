@@ -23,9 +23,9 @@ static int btMatrix3x3__btMatrix3x3(lua_State *L) {
     userdata->gc = false;
     return 0;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "~btMatrix3x3: %s", e.what());
+    lua_pushfstring(L, "__gc: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "~btMatrix3x3: Unknown exception");
+    lua_pushfstring(L, "__gc: Unknown exception");
   }
   return dub_error(L);
 }
@@ -69,9 +69,9 @@ static int btMatrix3x3_btMatrix3x3(lua_State *L) {
       return 1;
     }
   } catch (std::exception &e) {
-    lua_pushfstring(L, "btMatrix3x3: %s", e.what());
+    lua_pushfstring(L, "new: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "btMatrix3x3: Unknown exception");
+    lua_pushfstring(L, "new: Unknown exception");
   }
   return dub_error(L);
 }
@@ -86,9 +86,9 @@ static int btMatrix3x3_operator_sete(lua_State *L) {
     dub_pushudata(L, &self->operator=(*other), "bt.Matrix3x3", false);
     return 1;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "operator=: %s", e.what());
+    lua_pushfstring(L, "set: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "operator=: Unknown exception");
+    lua_pushfstring(L, "set: Unknown exception");
   }
   return dub_error(L);
 }
@@ -151,9 +151,9 @@ static int btMatrix3x3_operator_mule(lua_State *L) {
     dub_pushudata(L, &self->operator*=(*m), "bt.Matrix3x3", false);
     return 1;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "operator*=: %s", e.what());
+    lua_pushfstring(L, "mul: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "operator*=: Unknown exception");
+    lua_pushfstring(L, "mul: Unknown exception");
   }
   return dub_error(L);
 }
@@ -168,9 +168,9 @@ static int btMatrix3x3_operator_adde(lua_State *L) {
     dub_pushudata(L, &self->operator+=(*m), "bt.Matrix3x3", false);
     return 1;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "operator+=: %s", e.what());
+    lua_pushfstring(L, "add: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "operator+=: Unknown exception");
+    lua_pushfstring(L, "add: Unknown exception");
   }
   return dub_error(L);
 }
@@ -185,9 +185,9 @@ static int btMatrix3x3_operator_sube(lua_State *L) {
     dub_pushudata(L, &self->operator-=(*m), "bt.Matrix3x3", false);
     return 1;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "operator-=: %s", e.what());
+    lua_pushfstring(L, "sub: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "operator-=: Unknown exception");
+    lua_pushfstring(L, "sub: Unknown exception");
   }
   return dub_error(L);
 }

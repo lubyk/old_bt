@@ -38,9 +38,9 @@ static int GLDebugDrawer_GLDebugDrawer(lua_State *L) {
     dub_pushudata(L, retval__, "bt.GLDebugDrawer", true);
     return 1;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "GLDebugDrawer: %s", e.what());
+    lua_pushfstring(L, "new: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "GLDebugDrawer: Unknown exception");
+    lua_pushfstring(L, "new: Unknown exception");
   }
   return dub_error(L);
 }
@@ -58,9 +58,9 @@ static int GLDebugDrawer__GLDebugDrawer(lua_State *L) {
     userdata->gc = false;
     return 0;
   } catch (std::exception &e) {
-    lua_pushfstring(L, "~GLDebugDrawer: %s", e.what());
+    lua_pushfstring(L, "__gc: %s", e.what());
   } catch (...) {
-    lua_pushfstring(L, "~GLDebugDrawer: Unknown exception");
+    lua_pushfstring(L, "__gc: Unknown exception");
   }
   return dub_error(L);
 }
