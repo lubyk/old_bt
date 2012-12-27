@@ -10,8 +10,11 @@ local lib = bt.LkMotionState_core
 bt.LkMotionState = lib
 
 local new = lib.new
-function lib:new(transform)
+function lib.new(transform, vect)
   local self = new()
+  if vect then
+    transform = bt.Transform(transform, vect)
+  end
   if transform then
     self.transform = transform
   end
