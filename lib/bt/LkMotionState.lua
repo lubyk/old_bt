@@ -10,10 +10,20 @@ local lib = bt.LkMotionState_core
 bt.LkMotionState = lib
 
 local new = lib.new
-function lib.new(transform, vect)
+function lib.new(quat, vect)
   local self = new()
+  local transform
   if vect then
-    transform = bt.Transform(transform, vect)
+    if type(vect) == 'table' then
+      transform = bt.Transform(
+        -- four.Quat to bt.Quaternion
+        bt.Quaternion(quat[1], quat[2], quat[3], quat[4]),
+        -- four.V3 to bt.Vector3
+        bt.Vector3(vect[1], vect[2], vect[3])
+      )
+    else
+      transform = bt.Transform(quat, vect)
+    end
   end
   if transform then
     self.transform = transform
@@ -22,16 +32,19 @@ function lib.new(transform, vect)
 end
 
 --=============================================== Default callback implementations
-function lib:getWorldTransform(worldTrans)
+--
+-- This is called once by Bullet at the start of the simulation.
+function lib:getWorldTransform(retval)
   local transform = self.transform
   if transform then
-    worldTrans:set(transform)
+    retval:set(transform)
   end
 end
 
-function lib:setWorldTransform(worldTrans)
+-- This is called by bullet whenever the position changes.
+function lib:setWorldTransform(new_transform)
   local transform = self.transform
   if transform then
-    transform:set(worldTrans)
+    transform:set(new_transform)
   end
 end

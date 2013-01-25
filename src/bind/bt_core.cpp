@@ -31,6 +31,7 @@
 #include "BulletDynamics/ConstraintSolver/btTypedConstraint.h"
 #include "BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h"
 #include "BulletDynamics/ConstraintSolver/btHingeConstraint.h"
+#include "BulletDynamics/ConstraintSolver/btGeneric6DofSpringConstraint.h"
 #include "BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h"
 #include "BulletDynamics/Dynamics/btDynamicsWorld.h"
 #include "BulletDynamics/Dynamics/btRigidBody.h"
@@ -71,6 +72,7 @@ int luaopen_bt_SequentialImpulseConstraintSolver(lua_State *L);
 int luaopen_bt_TypedConstraint(lua_State *L);
 int luaopen_bt_Point2PointConstraint(lua_State *L);
 int luaopen_bt_HingeConstraint(lua_State *L);
+int luaopen_bt_Generic6DofSpringConstraint(lua_State *L);
 int luaopen_bt_DiscreteDynamicsWorld(lua_State *L);
 int luaopen_bt_DynamicsWorld(lua_State *L);
 int luaopen_bt_RigidBody(lua_State *L);
@@ -1055,6 +1057,7 @@ extern "C" int luaopen_bt_core(lua_State *L) {
   luaopen_bt_TypedConstraint(L);
   luaopen_bt_Point2PointConstraint(L);
   luaopen_bt_HingeConstraint(L);
+  luaopen_bt_Generic6DofSpringConstraint(L);
   luaopen_bt_DiscreteDynamicsWorld(L);
   luaopen_bt_DynamicsWorld(L);
   luaopen_bt_RigidBody(L);

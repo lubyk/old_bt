@@ -43,9 +43,7 @@ local ins = dub.Inspector {
     bt_base .. '/BulletDynamics/ConstraintSolver/btConstraintSolver.h',
     bt_base .. '/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h',
 
-    base .. '/bind/btPoint2PointConstraint.h',
-    base .. '/bind/btHingeConstraint.h',
-    base .. '/bind/btTypedConstraint.h',
+    base .. '/bind',
 
     bt_base .. '/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h',
     bt_base .. '/BulletDynamics/Dynamics/btDynamicsWorld.h',
@@ -102,6 +100,7 @@ end
 
 local BIND_TO_HEADER = {
   ['btPoint2PointConstraint.h'] = 'BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h',
+  ['btGeneric6DofSpringConstraint.h'] = 'BulletDynamics/ConstraintSolver/btGeneric6DofSpringConstraint.h',
   ['btHingeConstraint.h']       = 'BulletDynamics/ConstraintSolver/btHingeConstraint.h',
   ['btTypedConstraint.h']       = 'BulletDynamics/ConstraintSolver/btTypedConstraint.h',
 }
@@ -160,6 +159,7 @@ binder:bind(ins, {
     'btTypedConstraint',
     'btPoint2PointConstraint',
     'btHingeConstraint',
+    'btGeneric6DofSpringConstraint',
 
     -- BulletDynamics/Dynamics:
     'btDiscreteDynamicsWorld',
