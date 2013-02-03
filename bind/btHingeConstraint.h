@@ -32,4 +32,9 @@ public:
       btScalar _relaxationFactor = 1.0f);
 
   void enableAngularMotor(bool enableMotor,btScalar targetVelocity,btScalar maxMotorImpulse);
+  void enableAngularMotor(bool enableMotor,btScalar targetVelocity,btScalar maxMotorImpulse);
+  void setMotorTarget(btScalar targetAngle,btScalar dt);
+  
+  void enableMotor(bool isEnableMotor);
+  void setMaxMotorImpulse(btScalar maxMotorImpulse);
 };

@@ -197,6 +197,58 @@ static int btHingeConstraint_enableAngularMotor(lua_State *L) {
   return dub_error(L);
 }
 
+/** void btHingeConstraint::setMotorTarget(btScalar targetAngle, btScalar dt)
+ * bind/btHingeConstraint.h:36
+ */
+static int btHingeConstraint_setMotorTarget(lua_State *L) {
+  try {
+    btHingeConstraint *self = *((btHingeConstraint **)dub_checksdata(L, 1, "bt.HingeConstraint"));
+    btScalar targetAngle = dub_checknumber(L, 2);
+    btScalar dt = dub_checknumber(L, 3);
+    self->setMotorTarget(targetAngle, dt);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setMotorTarget: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setMotorTarget: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btHingeConstraint::enableMotor(bool isEnableMotor)
+ * bind/btHingeConstraint.h:38
+ */
+static int btHingeConstraint_enableMotor(lua_State *L) {
+  try {
+    btHingeConstraint *self = *((btHingeConstraint **)dub_checksdata(L, 1, "bt.HingeConstraint"));
+    bool isEnableMotor = dub_checkboolean(L, 2);
+    self->enableMotor(isEnableMotor);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "enableMotor: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "enableMotor: Unknown exception");
+  }
+  return dub_error(L);
+}
+
+/** void btHingeConstraint::setMaxMotorImpulse(btScalar maxMotorImpulse)
+ * bind/btHingeConstraint.h:39
+ */
+static int btHingeConstraint_setMaxMotorImpulse(lua_State *L) {
+  try {
+    btHingeConstraint *self = *((btHingeConstraint **)dub_checksdata(L, 1, "bt.HingeConstraint"));
+    btScalar maxMotorImpulse = dub_checknumber(L, 2);
+    self->setMaxMotorImpulse(maxMotorImpulse);
+    return 0;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "setMaxMotorImpulse: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "setMaxMotorImpulse: Unknown exception");
+  }
+  return dub_error(L);
+}
+
 
 
 // --=============================================== __tostring
@@ -215,6 +267,9 @@ static const struct luaL_Reg btHingeConstraint_member_methods[] = {
   { "new"          , btHingeConstraint_btHingeConstraint },
   { "setLimit"     , btHingeConstraint_setLimit },
   { "enableAngularMotor", btHingeConstraint_enableAngularMotor },
+  { "setMotorTarget", btHingeConstraint_setMotorTarget },
+  { "enableMotor"  , btHingeConstraint_enableMotor },
+  { "setMaxMotorImpulse", btHingeConstraint_setMaxMotorImpulse },
   { "__tostring"   , btHingeConstraint___tostring },
   { "deleted"      , dub_isDeleted        },
   { NULL, NULL},

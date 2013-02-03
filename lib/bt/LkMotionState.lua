@@ -9,6 +9,12 @@
 local lib = bt.LkMotionState_core
 bt.LkMotionState = lib
 
+local Quat, V3 = four.Quat, four.V3
+local Left     = Quat.rotAxis(V3(0, 1, 0),  math.pi/2)
+local Right    = Quat.rotAxis(V3(0, 1, 0), -math.pi/2)
+local Up       = Quat.rotAxis(V3(0, 0, 1),  math.pi/2)
+local Down     = Quat.rotAxis(V3(0, 0, 1), -math.pi/2)
+
 local new = lib.new
 function lib.new(quat, vect)
   local self = new()
