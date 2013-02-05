@@ -112,6 +112,7 @@ end
 
 binder:bind(ins, {
   output_directory = base .. '/src/bind',
+  custom_bindings  = base .. '/bind',
   -- Remove this part in headers
   header_base = {
     bt_base,

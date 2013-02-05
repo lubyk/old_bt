@@ -30,6 +30,29 @@ static int btTransform__btTransform(lua_State *L) {
   return dub_error(L);
 }
 
+/** LuaStackSize btTransform::toM4(void)
+ * bind/btTransform.h:5
+ */
+static int btTransform_toM4(lua_State *L) {
+  try {
+    btTransform *self = *((btTransform **)dub_checksdata(L, 1, "bt.Transform"));
+    btScalar m[16];
+    self->getOpenGLMatrix(m);
+    // A pointer to a 15 element array (12 rotation(row major padded on the right by 1), and 3 translation
+    lua_newtable(L);
+    for(size_t i = 0; i < 16; ++i) {
+      lua_pushnumber(L, m[i]);
+      lua_rawseti(L, -2, i+1);
+    }
+    return 1;
+  } catch (std::exception &e) {
+    lua_pushfstring(L, "toM4: %s", e.what());
+  } catch (...) {
+    lua_pushfstring(L, "toM4: Unknown exception");
+  }
+  return dub_error(L);
+}
+
 /** btTransform::btTransform()
  * src/vendor/bullet/src/LinearMath/btTransform.h:44
  */
@@ -495,6 +518,7 @@ static int btTransform___tostring(lua_State *L) {
 
 static const struct luaL_Reg btTransform_member_methods[] = {
   { "__gc"         , btTransform__btTransform },
+  { "toM4"         , btTransform_toM4     },
   { "new"          , btTransform_btTransform },
   { "set"          , btTransform_operator_sete },
   { "mult"         , btTransform_mult     },
