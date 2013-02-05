@@ -38,7 +38,11 @@ set_target_properties(${target}
   SUFFIX ".so"
 )                                                         
 # BulletWorldImporter 
-target_link_libraries(${target} BulletMultiThreaded MiniCL BulletSoftBody BulletDynamics BulletCollision LinearMath)
+target_link_libraries(${target} BulletSoftBody BulletDynamics BulletCollision LinearMath)
+if(LINUX)
+else(LINUX)
+  target_link_libraries(${target} BulletMultiThreaded MiniCL)
+endif(LINUX)
 
 # OpenGL stuff
 target_link_libraries(${target} ${GLUT_glut_LIBRARY} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
