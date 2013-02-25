@@ -50,6 +50,28 @@ function lib:addGround(restitution)
   self:addRigidBody(self.ground)
 end
 
+function lib:addPlane(direction, transform, opts)
+  local opts = opts or {}
+  local restitution = opts.restitution or 1.0
+  local ht = opts.thickness or 0.1
+  local plane = {}
+
+  plane.shape  = bt.StaticPlaneShape(direction, ht)
+  plane.motion = bt.DefaultMotionState(transform)
+
+  plane.ci = bt.RigidBody.RigidBodyConstructionInfo(
+    0,
+    plane.motion,
+    plane.shape,
+    bt.Vector3(0,0,0)
+  )
+  plane.ci.m_restitution = restitution
+  plane.super = bt.RigidBody(plane.ci)
+
+  self:addRigidBody(plane)
+  return plane
+end
+
 function lib:debugDrawer(gl_type)
   local drawer
   if gl_type == 'LEGACY' then
